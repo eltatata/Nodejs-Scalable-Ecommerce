@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  user-mongodb:
+    image: mongo:latest
+    container_name: user-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./volumes/user-mongodb-data:/data/db
+    networks:
+      - ecommerce-network
+
+networks:
+  ecommerce-network:
+    driver: bridge
