@@ -1,5 +1,5 @@
 import { sign, verify } from 'jsonwebtoken';
-import { envs } from './envs';
+import { envs } from './envs.adapter';
 
 const JWT_SECRET = envs.JWT_SECRET;
 

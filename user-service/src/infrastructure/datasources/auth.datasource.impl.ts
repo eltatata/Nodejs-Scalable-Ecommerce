@@ -1,5 +1,5 @@
 import { User } from '../../data';
-import { bcryptAdapter, JwtAdapter } from "../../config";
+import { bcryptAdapter } from "../../config";
 import {
   AuthDatasource,
   CustomError,
