@@ -6,7 +6,7 @@ export class UserEntity {
     public name: string,
     public lastname: string,
     public email: string,
-    public role: string[],
+    public role: string,
     public address?: string,
     public phone?: string,
   ) { }

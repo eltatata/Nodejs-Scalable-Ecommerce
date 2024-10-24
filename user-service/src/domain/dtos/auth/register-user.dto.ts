@@ -1,4 +1,5 @@
-import { regularExps } from "../../../config";
+import { ValidationResult } from '../..';
+import { registerUserSchema, ZodAdapter } from '../../../config';
 
 export class RegisterUserDto {
   private constructor(
@@ -6,16 +7,11 @@ export class RegisterUserDto {
     public readonly lastname: string,
     public readonly email: string,
     public readonly password: string,
-  ) { }
+  ) {}
 
-  static create(obj: any): [string?, RegisterUserDto?] {
-    const { name, lastname, email, password } = obj;
+  static create(props: Record<string, any>): ValidationResult<RegisterUserDto> {
+    const { errors, validatedData } = ZodAdapter.validate(registerUserSchema, props);
 
-    if (!name) return ['Missing name', undefined];
-    if (!lastname) return ['Missing lastname', undefined];
-    if (!regularExps.email.test(email)) return ['Invalid email', undefined];
-    if (!password || password.length < 6) return ['Password must be at least 6 characters long', undefined];
-
-    return [undefined, new RegisterUserDto(name, lastname, email, password)];
+    return errors ? { errors } : { validatedData };
   }
 }
