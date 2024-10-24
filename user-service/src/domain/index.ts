@@ -6,3 +6,4 @@ export * from './datasources/auth.datasource';
 export * from './repositories/auth.repository';
 export * from './use-cases/auth/login-user';
 export * from './use-cases/auth/register-user';
+export * from './interfaces/validation.interface';

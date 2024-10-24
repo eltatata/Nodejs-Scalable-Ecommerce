@@ -6,7 +6,6 @@ import {
   LoginUserDto,
   RegisterUserDto,
   UserEntity,
-  // UserRole
 } from '../../domain';
 
 export class AuthDatasourceImpl implements AuthDatasource {
