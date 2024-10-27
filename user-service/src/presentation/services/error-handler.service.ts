@@ -1,5 +1,4 @@
 import { Response } from 'express';
-
 import { CustomError } from '../../domain';
 
 export class ErrorHandlerService {

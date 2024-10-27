@@ -1,4 +1,4 @@
-import { AuthRepository, RegisterUserDto, UserEntity } from "../..";
+import { AuthRepository, RegisterUserDto, UserEntity } from "../../";
 
 export interface RegisterUserUseCase {
   execute(registerUserDto: RegisterUserDto): Promise<UserEntity>;

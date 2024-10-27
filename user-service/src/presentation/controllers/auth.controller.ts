@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ErrorHandlerService } from '..';
+import { ErrorHandlerService } from '../';
 import { AuthRepository, LoginUser, LoginUserDto, RegisterUser, RegisterUserDto } from '../../domain';
 
 export class AuthController {

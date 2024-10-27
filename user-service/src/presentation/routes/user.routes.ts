@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { UserDatasourceImpl, UserRepositoryImpl } from "../../infrastructure";
-import { UserController } from "../controllers/user.controller";
+import { UserController } from "../";
 
 export class UserRoutes {
   static get routes(): Router {

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
+import { ErrorHandlerService } from "../";
 import { GetUser, UserRepository } from "../../domain";
-import { ErrorHandlerService } from "../services/error-handler.service";
 
 export class UserController {
   constructor(private readonly userRepository: UserRepository) { }
@@ -14,3 +14,4 @@ export class UserController {
       .catch(error => ErrorHandlerService.handleError(error, res));
   }
 }
+

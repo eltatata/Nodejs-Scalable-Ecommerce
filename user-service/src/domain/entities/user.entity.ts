@@ -1,4 +1,4 @@
-import { CustomError } from "../errors/custom.error";
+import { CustomError } from "../";
 
 export class UserEntity {
   constructor(

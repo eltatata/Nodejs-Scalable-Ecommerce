@@ -1,5 +1,4 @@
-import { UserEntity } from "../../entities/user.entity";
-import { UserRepository } from "../../repositories/user.repository";
+import { UserEntity, UserRepository } from "../../";
 
 export interface GetUserUseCase {
   execute(userId: string): Promise<UserEntity>;
