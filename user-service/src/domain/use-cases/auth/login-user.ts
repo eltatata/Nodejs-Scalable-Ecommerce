@@ -1,5 +1,5 @@
 import { JwtAdapter } from "../../../config";
-import { AuthRepository, CustomError, LoginUserDto, UserEntity } from "../../";
+import { CustomError, LoginUserDto, UserEntity, UserRepository } from "../../";
 
 export type SignToken = (payload: Record<string, any>, duration?: string) => Promise<string | null>;
 
@@ -14,12 +14,12 @@ export interface LoginUserUseCase {
 
 export class LoginUser implements LoginUserUseCase {
   constructor(
-    private readonly authRepository: AuthRepository,
+    private readonly userRepository: UserRepository,
     private readonly generateToken: SignToken = JwtAdapter.generateToken,
   ) { }
 
   async execute(loginUserDto: LoginUserDto): LoginUserUseCaseResp {
-    const user = await this.authRepository.loginUser(loginUserDto);
+    const user = await this.userRepository.findUserByEmail(loginUserDto.email);
     if (!user) throw CustomError.notFound("User not found");
 
     const token = await this.generateToken({ id: user.id });

@@ -1,4 +1,4 @@
-import { UserEntity, UserRepository } from "../../";
+import { CustomError, UserEntity, UserRepository } from "../../";
 
 export interface GetUserUseCase {
   execute(userId: string): Promise<UserEntity>;
@@ -9,7 +9,9 @@ export class GetUser implements GetUserUseCase {
     private readonly userRepository: UserRepository,
   ) { }
 
-  execute(id: string): Promise<UserEntity> {
-    return this.userRepository.findUserById(id);
+  async execute(id: string): Promise<UserEntity> {
+    const user = await this.userRepository.findUserById(id);
+    if (!user) throw CustomError.notFound('User not found');
+    return user;
   }
 }
