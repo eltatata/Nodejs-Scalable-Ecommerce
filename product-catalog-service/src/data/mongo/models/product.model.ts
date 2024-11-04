@@ -22,10 +22,16 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  images: {
-    type: [String],
-    required: true
-  }
+  images: [{
+    secureUrl: {
+      type: String,
+      required: true
+    },
+    publicId: {
+      type: String,
+      required: true
+    }
+  }]
 }, {
   timestamps: true
 });

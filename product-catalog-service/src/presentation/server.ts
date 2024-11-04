@@ -1,9 +1,16 @@
 import express, { Router } from 'express';
+import { v2 as cloudinary } from 'cloudinary';
+
+interface CloudinaryConfig {
+  cloud_name: string;
+  api_key: string;
+  api_secret: string;
+}
 
 interface Options {
   port: number;
   routes: Router;
-  public_path?: string;
+  cloudinaryConfig: CloudinaryConfig;
 }
 
 export class Server {
@@ -11,15 +18,19 @@ export class Server {
   private serverListener?: any;
   private readonly port: number;
   private readonly routes: Router;
+  private readonly cloudinaryConfig: CloudinaryConfig;
 
   constructor(options: Options) {
-    const { port, routes } = options;
+    const { port, routes, cloudinaryConfig } = options;
 
     this.port = port;
     this.routes = routes;
+    this.cloudinaryConfig = cloudinaryConfig;
   }
 
   async start() {
+    cloudinary.config(this.cloudinaryConfig);
+
     this.app.use(express.json());
 
     this.app.use(this.routes);

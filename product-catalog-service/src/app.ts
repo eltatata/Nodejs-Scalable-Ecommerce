@@ -12,6 +12,11 @@ async function main() {
   const server = new Server({
     port: envs.PORT,
     routes: AppRoutes.routes,
+    cloudinaryConfig: {
+      cloud_name: envs.CLOUD_NAME,
+      api_key: envs.CLOUDINARY_API_KEY,
+      api_secret: envs.CLOUDINARY_API_SECRET,
+    },
   });
 
   server.start();
