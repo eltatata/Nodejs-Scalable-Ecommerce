@@ -1,3 +1,4 @@
+import { bcryptAdapter } from '../../config';
 import { User } from '../../data';
 import { UserEntity, UserDatasource, RegisterUserDto } from "../../domain";
 
@@ -14,6 +15,8 @@ export class UserDatasourceImpl implements UserDatasource {
 
   async createUser(registerUserDto: RegisterUserDto): Promise<UserEntity> {
     const user = new User(registerUserDto);
+    user.password = bcryptAdapter.hash(registerUserDto.password);
+
     await user.save();
 
     return UserEntity.fromObject(user);
