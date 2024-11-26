@@ -13,6 +13,11 @@ export class AddItem implements AddItemUseCase {
 
   async execute(userId: string, item: Item): Promise<CartEntity | null> {
     const product = await this.productService.findProductById(item.productId);
+    if (!product) throw CustomError.notFound('Product not found');
+
+    if (item.quantity > product.inventory) {
+      throw CustomError.badRequest('Quantity exceeds available inventory');
+    }
 
     let cart = await this.cartDataSource.find(userId);
     if (!cart) {
@@ -22,6 +27,9 @@ export class AddItem implements AddItemUseCase {
 
     const existingItem = cart.items.find((i) => i.productId === item.productId);
     if (existingItem) {
+      if (existingItem.quantity + item.quantity > product.inventory) {
+        throw CustomError.badRequest('Quantity exceeds available inventory');
+      }
       existingItem.quantity += item.quantity;
     } else {
       cart.items.push({
