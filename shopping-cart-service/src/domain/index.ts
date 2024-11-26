@@ -3,6 +3,7 @@ export * from "./datasources/cart.datasource";
 export * from "./use-cases/add-item";
 export * from "./use-cases/get-cart";
 export * from "./use-cases/update-cuantity";
+export * from "./use-cases/delete-item";
 export * from "./errors/custom.error";
 export * from "./entitites/cart.entity";
 export * from "./interfaces/item.interface";

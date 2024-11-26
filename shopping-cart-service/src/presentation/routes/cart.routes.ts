@@ -13,6 +13,7 @@ export class CartRoutes {
     router.post("/:userId", cartController.addItem);
     router.get("/:userId", cartController.getCart);
     router.put("/:userId/:productId", cartController.updateQuantity);
+    router.delete("/:userId/:productId", cartController.deleteItem);
 
     return router;
   }
