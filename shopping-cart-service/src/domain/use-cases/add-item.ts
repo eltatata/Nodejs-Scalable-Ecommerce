@@ -2,7 +2,7 @@ import { ProductService } from "../../infrastructure";
 import { CartDataSource, CartEntity, CustomError, Item } from "../";
 
 export interface AddItemUseCase {
-  execute(userId: string, item: Item): Promise<CartEntity | null>;
+  execute(userId: string, item: Item): Promise<CartEntity>;
 }
 
 export class AddItem implements AddItemUseCase {
@@ -11,7 +11,7 @@ export class AddItem implements AddItemUseCase {
     private productService: ProductService = new ProductService()
   ) { }
 
-  async execute(userId: string, item: Item): Promise<CartEntity | null> {
+  async execute(userId: string, item: Item): Promise<CartEntity> {
     const product = await this.productService.findProductById(item.productId);
     if (!product) throw CustomError.notFound('Product not found');
 

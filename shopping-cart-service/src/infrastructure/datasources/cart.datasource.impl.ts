@@ -13,12 +13,12 @@ export class CartDataSourceImpl implements CartDataSource {
     return CartEntity.fromObject(cart);
   }
 
-  async update(cart: CartEntity): Promise<CartEntity | null> {
+  async update(cart: CartEntity): Promise<CartEntity> {
     const updatedCart = await Cart.findByIdAndUpdate(
       cart.id,
       cart,
       { new: true }
     );
-    return updatedCart ? CartEntity.fromObject(updatedCart) : null;
+    return CartEntity.fromObject(updatedCart);
   }
 }

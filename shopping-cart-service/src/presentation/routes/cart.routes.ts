@@ -11,6 +11,7 @@ export class CartRoutes {
     const cartController = new CartController(cartRepository);
 
     router.post("/:userId", cartController.addItem);
+    router.get("/:userId", cartController.getCart);
 
     return router;
   }
