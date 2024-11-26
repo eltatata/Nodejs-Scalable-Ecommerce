@@ -12,6 +12,7 @@ export class CartRoutes {
 
     router.post("/:userId", cartController.addItem);
     router.get("/:userId", cartController.getCart);
+    router.put("/:userId/:productId", cartController.updateQuantity);
 
     return router;
   }

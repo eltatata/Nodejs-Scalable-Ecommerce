@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ErrorHandlerService } from "../";
-import { AddItem, CartRepository, GetCart } from "../../domain";
+import { AddItem, CartRepository, GetCart, UpdateQuantity } from "../../domain";
 
 export class CartController {
   constructor(private cartRepository: CartRepository) { }
@@ -21,6 +21,16 @@ export class CartController {
     new GetCart(this.cartRepository)
       .execute(userId)
       .then((cart) => res.status(200).json(cart))
+      .catch((error) => ErrorHandlerService.handleError(error, res));
+  }
+
+  updateQuantity = async (req: Request, res: Response) => {
+    const { userId, productId } = req.params;
+    const { quantity } = req.body;
+
+    new UpdateQuantity(this.cartRepository)
+      .execute(userId, productId, quantity)
+      .then(() => res.status(204).send())
       .catch((error) => ErrorHandlerService.handleError(error, res));
   }
 }
