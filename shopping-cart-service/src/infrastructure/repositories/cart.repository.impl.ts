@@ -10,4 +10,8 @@ export class CartRepositoryImpl implements CartRepository {
   async create(userId: string, item: Item): Promise<CartEntity> {
     return this.cartDataSource.create(userId, item);
   }
+
+  async update(cart: CartEntity): Promise<CartEntity | null> {
+    return this.cartDataSource.update(cart);
+  }
 }

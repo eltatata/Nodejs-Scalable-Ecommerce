@@ -7,12 +7,10 @@ export class CartController {
 
   addItem = async (req: Request, res: Response) => {
     const { userId } = req.params;
-    const { productId, quantity } = req.body;
-
-    console.log(userId, productId, quantity);
+    const item = req.body;
 
     new AddItem(this.cartRepository)
-      .execute(userId, { productId, quantity })
+      .execute(userId, item)
       .then((cart) => res.status(201).json(cart))
       .catch((error) => ErrorHandlerService.handleError(error, res));
   }

@@ -1,16 +1,13 @@
-import { Document } from "mongoose";
-import { CustomError } from "../";
+import { CustomError, Item } from "../";
 
-export class CartEntity extends Document {
+export class CartEntity {
   constructor(
     public id: string,
     public userId: string,
-    public items: { productId: string, quantity: number }[],
+    public items: Item[],
     public createdAt: Date,
     public updatedAt: Date
-  ) {
-    super();
-  }
+  ) { }
 
   static fromObject(obj: any): CartEntity {
     const { id, _id, userId, items, createdAt, updatedAt } = obj;
