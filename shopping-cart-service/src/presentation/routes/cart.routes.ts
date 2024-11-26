@@ -14,6 +14,7 @@ export class CartRoutes {
     router.get("/:userId", cartController.getCart);
     router.put("/:userId/:productId", cartController.updateQuantity);
     router.delete("/:userId/:productId", cartController.deleteItem);
+    router.delete("/:userId", cartController.clearCart);
 
     return router;
   }
