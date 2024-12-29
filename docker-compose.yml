@@ -31,6 +31,16 @@ services:
     networks:
       - ecommerce-network
 
+  order-mongodb:
+    image: mongo:latest
+    container_name: order-mongodb
+    ports:
+      - "27020:27017"
+    volumes:
+      - ./volumes/order-mongodb-data:/data/db
+    networks:
+      - ecommerce-network
+
 networks:
   ecommerce-network:
     driver: bridge
