@@ -22,6 +22,10 @@ export class UpdateQuantity implements UpdateQuantityUseCase {
     const product = await this.productService.findProductById(productId);
     if (!product) throw CustomError.notFound('Product not found');
 
+    if (quantity <= 0) {
+      throw CustomError.badRequest('Quantity must be greater than 0');
+    }
+
     if (quantity > product.inventory) {
       throw CustomError.badRequest('Quantity exceeds available inventory');
     }

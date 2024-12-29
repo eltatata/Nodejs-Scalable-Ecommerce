@@ -15,6 +15,10 @@ export class AddItem implements AddItemUseCase {
     const product = await this.productService.findProductById(item.productId);
     if (!product) throw CustomError.notFound('Product not found');
 
+    if (item.quantity <= 0) {
+      throw CustomError.badRequest('Quantity must be greater than 0');
+    }
+
     if (item.quantity > product.inventory) {
       throw CustomError.badRequest('Quantity exceeds available inventory');
     }
