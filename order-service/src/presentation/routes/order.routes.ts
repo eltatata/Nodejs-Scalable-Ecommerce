@@ -1,11 +1,16 @@
 import { Router } from 'express';
+import { OrderDatasourceImpl, OrderRepositoryImpl } from '../../infrastructure';
 import { OrderController } from '../';
 
 export class OrderRoutes {
-  static get routes() {
+  static get routes(): Router {
     const router = Router();
 
-    router.post('/create', OrderController.createOrder);
+    const orderDataSource = new OrderDatasourceImpl();
+    const orderRepository = new OrderRepositoryImpl(orderDataSource);
+    const orderController = new OrderController(orderRepository);
+
+    router.post('/:userId', orderController.createOrder);
 
     return router;
   }

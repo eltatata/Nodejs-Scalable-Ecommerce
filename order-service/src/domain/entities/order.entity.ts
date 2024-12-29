@@ -2,7 +2,6 @@ import { CustomError, Item } from '../';
 
 interface OrderEntityProps {
   id?: string;
-  _id?: string;
   userId: string;
   items: Item[];
   totalAmount: number;
@@ -23,10 +22,9 @@ export class OrderEntity {
   ) {}
 
   static fromObject(obj: OrderEntityProps): OrderEntity {
-    const { id, _id, userId, items, totalAmount, status, address, createdAt } =
-      obj;
+    const { id, userId, items, totalAmount, status, address, createdAt } = obj;
 
-    if (!id && _id) throw CustomError.badRequest('Missing id');
+    if (!id) throw CustomError.badRequest('Missing id');
     if (!userId) throw CustomError.badRequest('Missing userId');
     if (!items) throw CustomError.badRequest('Missing items');
     if (!totalAmount) throw CustomError.badRequest('Missing totalAmount');
@@ -35,7 +33,7 @@ export class OrderEntity {
     if (!createdAt) throw CustomError.badRequest('Missing createdAt');
 
     return new OrderEntity(
-      id || _id || '',
+      id,
       userId,
       items,
       totalAmount,
