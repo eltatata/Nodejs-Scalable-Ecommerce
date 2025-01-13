@@ -18,8 +18,9 @@ export class OrderDatasourceImpl implements OrderDataSource {
     return order ? OrderEntity.fromObject(order) : null;
   }
 
-  getOrders(): Promise<OrderEntity[]> {
-    throw new Error('Method not implemented.');
+  async getOrders(userId: string): Promise<OrderEntity[]> {
+    const orders = await Order.find({ userId });
+    return orders.map((order) => OrderEntity.fromObject(order));
   }
 
   updateOrder(order: UpdateOrderDto): Promise<OrderEntity | null> {

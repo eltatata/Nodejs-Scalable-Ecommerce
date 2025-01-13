@@ -12,6 +12,7 @@ export class OrderRoutes {
 
     router.post('/:userId', orderController.createOrder);
     router.get('/:userId/:orderId', orderController.getOrder);
+    router.get('/:userId', orderController.getOrders);
 
     return router;
   }

@@ -16,8 +16,8 @@ export class OrderRepositoryImpl implements OrderRepository {
     return this.orderDataSource.getOrder(userId, orderId);
   }
 
-  getOrders(): Promise<OrderEntity[]> {
-    throw new Error('Method not implemented.');
+  getOrders(userId: string): Promise<OrderEntity[]> {
+    return this.orderDataSource.getOrders(userId);
   }
 
   updateOrder(order: UpdateOrderDto): Promise<OrderEntity | null> {

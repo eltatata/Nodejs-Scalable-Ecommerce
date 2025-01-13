@@ -6,7 +6,7 @@ export abstract class OrderRepository {
     userId: string,
     orderId: string,
   ): Promise<OrderEntity | null>;
-  abstract getOrders(): Promise<OrderEntity[]>;
+  abstract getOrders(userId: string): Promise<OrderEntity[]>;
   abstract updateOrder(order: UpdateOrderDto): Promise<OrderEntity | null>;
   abstract deleteOrder(orderId: string): Promise<OrderEntity | null>;
 }

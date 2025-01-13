@@ -34,4 +34,13 @@ export class OrderController {
       .then((order) => res.status(200).json(order))
       .catch((error) => ErrorHandlerService.handleError(error, res));
   };
+
+  getOrders = (req: Request, res: Response) => {
+    const { userId } = req.params;
+
+    this.orderRepository
+      .getOrders(userId)
+      .then((orders) => res.status(200).json(orders))
+      .catch((error) => ErrorHandlerService.handleError(error, res));
+  };
 }
