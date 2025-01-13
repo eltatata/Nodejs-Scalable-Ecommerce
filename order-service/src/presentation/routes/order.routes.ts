@@ -11,6 +11,7 @@ export class OrderRoutes {
     const orderController = new OrderController(orderRepository);
 
     router.post('/:userId', orderController.createOrder);
+    router.get('/:userId/:orderId', orderController.getOrder);
 
     return router;
   }

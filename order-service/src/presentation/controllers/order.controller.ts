@@ -1,6 +1,11 @@
 import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
-import { CreateOrder, CreateOrderDto, OrderRepository } from '../../domain';
+import {
+  CreateOrder,
+  CreateOrderDto,
+  GetOrder,
+  OrderRepository,
+} from '../../domain';
 
 export class OrderController {
   constructor(private readonly orderRepository: OrderRepository) {}
@@ -18,6 +23,15 @@ export class OrderController {
     new CreateOrder(this.orderRepository)
       .execute(validatedData!)
       .then((order) => res.status(201).json(order))
+      .catch((error) => ErrorHandlerService.handleError(error, res));
+  };
+
+  getOrder = (req: Request, res: Response) => {
+    const { userId, orderId } = req.params;
+
+    new GetOrder(this.orderRepository)
+      .execute(userId, orderId)
+      .then((order) => res.status(200).json(order))
       .catch((error) => ErrorHandlerService.handleError(error, res));
   };
 }
