@@ -23,12 +23,14 @@ export class OrderDatasourceImpl implements OrderDataSource {
     return orders.map((order) => OrderEntity.fromObject(order));
   }
 
-  async updateOrder(updateOrderDto: UpdateOrderDto): Promise<OrderEntity> {
+  async updateOrder(
+    updateOrderDto: UpdateOrderDto,
+  ): Promise<OrderEntity | null> {
     const order = await Order.findByIdAndUpdate(
       updateOrderDto.id,
       { status: updateOrderDto.status },
       { new: true },
     );
-    return OrderEntity.fromObject(order!);
+    return order ? OrderEntity.fromObject(order) : null;
   }
 }

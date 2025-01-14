@@ -8,12 +8,8 @@ export class UpdateOrder implements UpdateOrderUseCase {
   constructor(private readonly orderRepository: OrderRepository) {}
 
   async execute(updateOrderDto: UpdateOrderDto): Promise<OrderEntity> {
-    const order = await this.orderRepository.getOrder(
-      updateOrderDto.userId,
-      updateOrderDto.id,
-    );
-    if (!order) throw CustomError.notFound('Order not found');
-
-    return this.orderRepository.updateOrder(updateOrderDto);
+    const updatedOrder = await this.orderRepository.updateOrder(updateOrderDto);
+    if (!updatedOrder) throw CustomError.notFound('Order not found');
+    return updatedOrder;
   }
 }

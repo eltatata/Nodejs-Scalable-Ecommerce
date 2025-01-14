@@ -13,7 +13,7 @@ export class OrderRoutes {
     router.post('/:userId', orderController.createOrder);
     router.get('/:userId/:orderId', orderController.getOrder);
     router.get('/:userId', orderController.getOrders);
-    router.put('/:userId/:orderId', orderController.updateOrder);
+    router.put('/:orderId', orderController.updateOrder);
 
     return router;
   }

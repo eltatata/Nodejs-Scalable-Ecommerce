@@ -20,7 +20,7 @@ export class OrderRepositoryImpl implements OrderRepository {
     return this.orderDataSource.getOrders(userId);
   }
 
-  updateOrder(updateOrderDto: UpdateOrderDto): Promise<OrderEntity> {
+  updateOrder(updateOrderDto: UpdateOrderDto): Promise<OrderEntity | null> {
     return this.orderDataSource.updateOrder(updateOrderDto);
   }
 }

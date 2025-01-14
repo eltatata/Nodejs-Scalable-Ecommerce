@@ -47,8 +47,8 @@ export class OrderController {
   };
 
   updateOrder = (req: Request, res: Response) => {
-    const { userId, orderId } = req.params;
-    const data = { ...req.body, id: orderId, userId };
+    const { orderId } = req.params;
+    const data = { ...req.body, id: orderId };
 
     const { errors, validatedData } = UpdateOrderDto.update(data);
     if (errors) {
