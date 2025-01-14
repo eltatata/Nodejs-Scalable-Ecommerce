@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { CreateCategoryDto, UpdateCategoryDto } from "../../../domain";
+import { z } from 'zod';
+import { CreateCategoryDto, UpdateCategoryDto } from '../../../domain';
 
 export const createCategorySchema: z.ZodType<CreateCategoryDto> = z.object({
   name: z.string().nonempty('Category name is required'),

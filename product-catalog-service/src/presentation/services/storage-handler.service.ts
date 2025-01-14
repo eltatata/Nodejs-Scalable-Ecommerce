@@ -10,19 +10,17 @@ export class CloudinaryStorageService {
   async upload(images: Buffer[]): Promise<ImageInfo[]> {
     const uploadImage = (image: Buffer): Promise<ImageInfo> => {
       return new Promise((resolve, reject) => {
-        cloudinary.uploader.upload_stream(
-          { folder: envs.CLOUDINARY_FOLDER },
-          (err, res) => {
+        cloudinary.uploader
+          .upload_stream({ folder: envs.CLOUDINARY_FOLDER }, (err, res) => {
             if (err) reject(err);
             else if (res) {
               resolve({
                 secureUrl: res.secure_url,
                 publicId: res.public_id,
               });
-            }
-            else reject(new Error('Upload failed, response is undefined'));
-          }
-        ).end(image);
+            } else reject(new Error('Upload failed, response is undefined'));
+          })
+          .end(image);
       });
     };
 
@@ -30,6 +28,8 @@ export class CloudinaryStorageService {
   }
 
   async delete(images: ImageInfo[]): Promise<void> {
-    await cloudinary.api.delete_resources(images.map(image => image.publicId));
+    await cloudinary.api.delete_resources(
+      images.map((image) => image.publicId),
+    );
   }
 }

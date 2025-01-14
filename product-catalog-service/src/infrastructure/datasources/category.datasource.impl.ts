@@ -1,10 +1,10 @@
-import { Category } from "../../data";
+import { Category } from '../../data';
 import {
   CategoryDataSource,
   CategoryEntity,
   CreateCategoryDto,
-  UpdateCategoryDto
-} from "../../domain";
+  UpdateCategoryDto,
+} from '../../domain';
 
 export class CategoryDataSourceImpl implements CategoryDataSource {
   async find(): Promise<CategoryEntity[]> {
@@ -28,11 +28,13 @@ export class CategoryDataSourceImpl implements CategoryDataSource {
     return CategoryEntity.fromObject(category);
   }
 
-  async update(updateCategoryDto: UpdateCategoryDto): Promise<CategoryEntity | null> {
+  async update(
+    updateCategoryDto: UpdateCategoryDto,
+  ): Promise<CategoryEntity | null> {
     const updatedCategory = await Category.findByIdAndUpdate(
       updateCategoryDto.id,
       updateCategoryDto,
-      { new: true }
+      { new: true },
     );
     return updatedCategory ? CategoryEntity.fromObject(updatedCategory) : null;
   }

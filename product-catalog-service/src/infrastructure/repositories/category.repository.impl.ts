@@ -1,7 +1,11 @@
-import { CategoryDataSource, CategoryEntity, CategoryRepository } from "../../domain";
+import {
+  CategoryDataSource,
+  CategoryEntity,
+  CategoryRepository,
+} from '../../domain';
 
 export class CategoryRepositoryImpl implements CategoryRepository {
-  constructor(private readonly categoryDatasource: CategoryDataSource) { }
+  constructor(private readonly categoryDatasource: CategoryDataSource) {}
 
   find(): Promise<CategoryEntity[]> {
     return this.categoryDatasource.find();

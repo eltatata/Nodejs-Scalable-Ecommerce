@@ -1,6 +1,10 @@
-import { Router } from "express";
-import { FilesMiddleware, ProductDataSourceImpl, ProductRepositoryImpl } from "../../infrastructure";
-import { ProductController } from "../";
+import { Router } from 'express';
+import {
+  FilesMiddleware,
+  ProductDataSourceImpl,
+  ProductRepositoryImpl,
+} from '../../infrastructure';
+import { ProductController } from '../';
 
 export class ProductRoutes {
   static get routes(): Router {
@@ -12,8 +16,16 @@ export class ProductRoutes {
 
     router.get('/', productController.findProducts);
     router.get('/:id', productController.findProduct);
-    router.post('/', FilesMiddleware.upload.array("images", 5), productController.createProduct);
-    router.put('/:id', FilesMiddleware.upload.array("images", 5), productController.updateProduct);
+    router.post(
+      '/',
+      FilesMiddleware.upload.array('images', 5),
+      productController.createProduct,
+    );
+    router.put(
+      '/:id',
+      FilesMiddleware.upload.array('images', 5),
+      productController.updateProduct,
+    );
     router.delete('/:id', productController.deleteProduct);
 
     return router;

@@ -1,6 +1,9 @@
-import { Router } from "express";
-import { CategoryDataSourceImpl, CategoryRepositoryImpl } from "../../infrastructure";
-import { CategoryController } from "../";
+import { Router } from 'express';
+import {
+  CategoryDataSourceImpl,
+  CategoryRepositoryImpl,
+} from '../../infrastructure';
+import { CategoryController } from '../';
 
 export class CategoryRoutes {
   static get routes(): Router {

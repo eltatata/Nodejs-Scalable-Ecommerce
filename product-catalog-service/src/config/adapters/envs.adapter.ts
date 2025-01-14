@@ -8,4 +8,4 @@ export const envs = {
   CLOUDINARY_FOLDER: get('CLOUDINARY_FOLDER').required().asString(),
   CLOUDINARY_API_KEY: get('API_KEY').required().asString(),
   CLOUDINARY_API_SECRET: get('API_SECRET').required().asString(),
-}
+};

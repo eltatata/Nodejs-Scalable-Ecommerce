@@ -7,7 +7,9 @@ export const createProductSchema: z.ZodType<CreateProductDto> = z.object({
   price: z.number().positive('Product price must be positive'),
   category: z.string().trim().nonempty('Category required'),
   inventory: z.number().positive('Product inventory must be positive'),
-  images: z.array(z.instanceof(Buffer)).min(1, 'At least one product image is required'),
+  images: z
+    .array(z.instanceof(Buffer))
+    .min(1, 'At least one product image is required'),
 });
 
 export const updateProductSchema: z.ZodType<UpdateProductDto> = z.object({
@@ -17,5 +19,7 @@ export const updateProductSchema: z.ZodType<UpdateProductDto> = z.object({
   price: z.number().positive('Product price must be positive'),
   category: z.string().trim().nonempty('Category required'),
   inventory: z.number().positive('Product inventory must be positive'),
-  images: z.array(z.instanceof(Buffer)).min(1, 'At least one product image is required'),
+  images: z
+    .array(z.instanceof(Buffer))
+    .min(1, 'At least one product image is required'),
 });

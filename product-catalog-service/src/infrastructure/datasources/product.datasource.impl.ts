@@ -1,10 +1,10 @@
-import { Product } from "../../data";
+import { Product } from '../../data';
 import {
   CreateProductData,
   UpdateProductData,
   ProductDataSource,
   ProductEntity,
-} from "../../domain";
+} from '../../domain';
 
 export class ProductDataSourceImpl implements ProductDataSource {
   async find(): Promise<ProductEntity[]> {
@@ -28,11 +28,13 @@ export class ProductDataSourceImpl implements ProductDataSource {
     return ProductEntity.fromObject(product);
   }
 
-  async update(updateProductDto: UpdateProductData): Promise<ProductEntity | null> {
+  async update(
+    updateProductDto: UpdateProductData,
+  ): Promise<ProductEntity | null> {
     const updatedProduct = await Product.findByIdAndUpdate(
       updateProductDto.id,
       updateProductDto,
-      { new: true }
+      { new: true },
     );
     return updatedProduct ? ProductEntity.fromObject(updatedProduct) : null;
   }

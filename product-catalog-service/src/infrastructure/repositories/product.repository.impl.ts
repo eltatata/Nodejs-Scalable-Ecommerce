@@ -1,7 +1,13 @@
-import { CreateProductData, UpdateProductData, ProductDataSource, ProductEntity, ProductRepository } from "../../domain";
+import {
+  CreateProductData,
+  UpdateProductData,
+  ProductDataSource,
+  ProductEntity,
+  ProductRepository,
+} from '../../domain';
 
 export class ProductRepositoryImpl implements ProductRepository {
-  constructor(private readonly productDatasource: ProductDataSource) { }
+  constructor(private readonly productDatasource: ProductDataSource) {}
 
   find(): Promise<ProductEntity[]> {
     return this.productDatasource.find();
