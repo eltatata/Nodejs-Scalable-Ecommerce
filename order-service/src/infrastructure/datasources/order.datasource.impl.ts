@@ -23,8 +23,13 @@ export class OrderDatasourceImpl implements OrderDataSource {
     return orders.map((order) => OrderEntity.fromObject(order));
   }
 
-  updateOrder(order: UpdateOrderDto): Promise<OrderEntity | null> {
-    throw new Error('Method not implemented.');
+  async updateOrder(updateOrderDto: UpdateOrderDto): Promise<OrderEntity> {
+    const order = await Order.findByIdAndUpdate(
+      updateOrderDto.id,
+      { status: updateOrderDto.status },
+      { new: true },
+    );
+    return OrderEntity.fromObject(order!);
   }
 
   deleteOrder(orderId: string): Promise<OrderEntity | null> {

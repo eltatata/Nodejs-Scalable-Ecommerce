@@ -8,8 +8,8 @@ import {
 export class OrderRepositoryImpl implements OrderRepository {
   constructor(private readonly orderDataSource: OrderRepository) {}
 
-  createOrder(order: CreateOrderDto): Promise<OrderEntity> {
-    return this.orderDataSource.createOrder(order);
+  createOrder(createOrderDto: CreateOrderDto): Promise<OrderEntity> {
+    return this.orderDataSource.createOrder(createOrderDto);
   }
 
   getOrder(userId: string, orderId: string): Promise<OrderEntity | null> {
@@ -20,8 +20,8 @@ export class OrderRepositoryImpl implements OrderRepository {
     return this.orderDataSource.getOrders(userId);
   }
 
-  updateOrder(order: UpdateOrderDto): Promise<OrderEntity | null> {
-    throw new Error('Method not implemented.');
+  updateOrder(updateOrderDto: UpdateOrderDto): Promise<OrderEntity> {
+    return this.orderDataSource.updateOrder(updateOrderDto);
   }
 
   deleteOrder(orderId: string): Promise<OrderEntity | null> {

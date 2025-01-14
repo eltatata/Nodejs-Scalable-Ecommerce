@@ -15,6 +15,8 @@ export const createOrderDtoSchema: z.ZodType<CreateOrderDto> = z.object({
 });
 
 export const updateOrderDtoSchema: z.ZodType<UpdateOrderDto> = z.object({
+  id: z.string(),
+  userId: z.string(),
   status: z.enum([
     'pending',
     'processing',

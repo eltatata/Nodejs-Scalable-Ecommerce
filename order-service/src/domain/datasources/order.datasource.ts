@@ -7,6 +7,6 @@ export abstract class OrderDataSource {
     orderId: string,
   ): Promise<OrderEntity | null>;
   abstract getOrders(userId: string): Promise<OrderEntity[]>;
-  abstract updateOrder(order: UpdateOrderDto): Promise<OrderEntity | null>;
+  abstract updateOrder(order: UpdateOrderDto): Promise<OrderEntity>;
   abstract deleteOrder(orderId: string): Promise<OrderEntity | null>;
 }

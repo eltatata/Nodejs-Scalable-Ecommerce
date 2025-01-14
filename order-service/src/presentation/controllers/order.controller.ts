@@ -5,6 +5,8 @@ import {
   CreateOrderDto,
   GetOrder,
   OrderRepository,
+  UpdateOrder,
+  UpdateOrderDto,
 } from '../../domain';
 
 export class OrderController {
@@ -41,6 +43,22 @@ export class OrderController {
     this.orderRepository
       .getOrders(userId)
       .then((orders) => res.status(200).json(orders))
+      .catch((error) => ErrorHandlerService.handleError(error, res));
+  };
+
+  updateOrder = (req: Request, res: Response) => {
+    const { userId, orderId } = req.params;
+    const data = { ...req.body, id: orderId, userId };
+
+    const { errors, validatedData } = UpdateOrderDto.update(data);
+    if (errors) {
+      res.status(400).json({ errors });
+      return;
+    }
+
+    new UpdateOrder(this.orderRepository)
+      .execute(validatedData!)
+      .then((order) => res.status(200).json(order))
       .catch((error) => ErrorHandlerService.handleError(error, res));
   };
 }
