@@ -31,8 +31,4 @@ export class OrderDatasourceImpl implements OrderDataSource {
     );
     return OrderEntity.fromObject(order!);
   }
-
-  deleteOrder(orderId: string): Promise<OrderEntity | null> {
-    throw new Error('Method not implemented.');
-  }
 }

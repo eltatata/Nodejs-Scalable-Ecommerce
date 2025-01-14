@@ -23,8 +23,4 @@ export class OrderRepositoryImpl implements OrderRepository {
   updateOrder(updateOrderDto: UpdateOrderDto): Promise<OrderEntity> {
     return this.orderDataSource.updateOrder(updateOrderDto);
   }
-
-  deleteOrder(orderId: string): Promise<OrderEntity | null> {
-    throw new Error('Method not implemented.');
-  }
 }
