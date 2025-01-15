@@ -1,6 +1,13 @@
 import { Item, ValidationResult } from '../..';
 import { createOrderDtoSchema, ZodAdapter } from '../../../config';
 
+interface CreateOrderDtoProps {
+  userId: string;
+  items: Item[];
+  totalAmount: number;
+  address: string;
+}
+
 export class CreateOrderDto {
   constructor(
     public userId: string,
@@ -9,12 +16,7 @@ export class CreateOrderDto {
     public address: string,
   ) {}
 
-  static create(props: {
-    userId: string;
-    items: Item[];
-    totalAmount: number;
-    address: string;
-  }): ValidationResult<CreateOrderDto> {
+  static create(props: CreateOrderDtoProps): ValidationResult<CreateOrderDto> {
     const { errors, validatedData } = ZodAdapter.validate(
       createOrderDtoSchema,
       props,
