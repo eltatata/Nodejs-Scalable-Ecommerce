@@ -21,8 +21,9 @@ export class ProductEntity {
     public images: { secureUrl: string; publicId: string }[],
   ) {}
 
-  static fromObject(obj: ProductEntityProps): ProductEntity {
-    const { id, name, description, price, category, inventory, images } = obj;
+  static fromObject(obj: unknown): ProductEntity {
+    const { id, name, description, price, category, inventory, images } =
+      obj as ProductEntityProps;
 
     if (!id) throw CustomError.badRequest('Missing id');
     if (!name) throw CustomError.badRequest('Missing name');

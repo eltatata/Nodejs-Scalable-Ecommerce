@@ -13,8 +13,8 @@ export class CategoryEntity {
     public description?: string,
   ) {}
 
-  static fromObject(obj: CategoryEntityProps): CategoryEntity {
-    const { id, name, description } = obj;
+  static fromObject(obj: unknown): CategoryEntity {
+    const { id, name, description } = obj as CategoryEntityProps;
 
     if (!id) throw CustomError.badRequest('Missing id');
     if (!name) throw CustomError.badRequest('Missing name');
