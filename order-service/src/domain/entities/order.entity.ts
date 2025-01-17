@@ -1,7 +1,7 @@
 import { CustomError, Item } from '../';
 
 interface OrderEntityProps {
-  id?: string;
+  id: string;
   userId: string;
   items: Item[];
   totalAmount: number;
@@ -21,8 +21,9 @@ export class OrderEntity {
     public createdAt: Date,
   ) {}
 
-  static fromObject(obj: OrderEntityProps): OrderEntity {
-    const { id, userId, items, totalAmount, status, address, createdAt } = obj;
+  static fromObject(obj: unknown): OrderEntity {
+    const { id, userId, items, totalAmount, status, address, createdAt } =
+      obj as OrderEntityProps;
 
     if (!id) throw CustomError.badRequest('Missing id');
     if (!userId) throw CustomError.badRequest('Missing userId');
