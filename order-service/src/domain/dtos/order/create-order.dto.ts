@@ -4,7 +4,6 @@ import { createOrderDtoSchema, ZodAdapter } from '../../../config';
 interface CreateOrderDtoProps {
   userId: string;
   items: Item[];
-  totalAmount: number;
   address: string;
 }
 
@@ -12,7 +11,6 @@ export class CreateOrderDto {
   constructor(
     public userId: string,
     public items: Item[],
-    public totalAmount: number,
     public address: string,
   ) {}
 

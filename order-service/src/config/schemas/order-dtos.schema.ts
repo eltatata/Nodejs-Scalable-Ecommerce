@@ -10,7 +10,6 @@ export const createOrderDtoSchema: z.ZodType<CreateOrderDto> = z.object({
       price: z.number(),
     }),
   ),
-  totalAmount: z.number().positive(),
   address: z.string(),
 });
 
