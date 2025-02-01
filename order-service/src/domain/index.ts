@@ -7,6 +7,7 @@ export * from './errors/custom.error';
 export * from './interfaces/item.interface';
 export * from './interfaces/validation.interfaces';
 export * from './interfaces/product.interface';
+export * from './interfaces/order.interface';
 export * from './use-cases/create-order';
 export * from './use-cases/get-order';
 export * from './use-cases/get-orders';

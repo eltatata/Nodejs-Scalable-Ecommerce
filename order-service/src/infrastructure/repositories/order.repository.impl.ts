@@ -1,5 +1,5 @@
 import {
-  CreateOrderDto,
+  CreateOrderData,
   OrderEntity,
   OrderRepository,
   UpdateOrderDto,
@@ -8,8 +8,8 @@ import {
 export class OrderRepositoryImpl implements OrderRepository {
   constructor(private readonly orderDataSource: OrderRepository) {}
 
-  createOrder(createOrderDto: CreateOrderDto): Promise<OrderEntity> {
-    return this.orderDataSource.createOrder(createOrderDto);
+  createOrder(createOrderData: CreateOrderData): Promise<OrderEntity> {
+    return this.orderDataSource.createOrder(createOrderData);
   }
 
   getOrder(userId: string, orderId: string): Promise<OrderEntity | null> {

@@ -1,14 +1,14 @@
 import { Order } from '../../data';
 import {
-  CreateOrderDto,
+  CreateOrderData,
   OrderDataSource,
   OrderEntity,
   UpdateOrderDto,
 } from '../../domain/';
 
 export class OrderDatasourceImpl implements OrderDataSource {
-  async createOrder(createOrderDto: CreateOrderDto): Promise<OrderEntity> {
-    const order = new Order(createOrderDto);
+  async createOrder(createOrderData: CreateOrderData): Promise<OrderEntity> {
+    const order = new Order(createOrderData);
     await order.save();
     return OrderEntity.fromObject(order);
   }
