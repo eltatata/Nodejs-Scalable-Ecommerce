@@ -19,5 +19,6 @@ export * from './use-cases/product/find-product';
 export * from './use-cases/product/create-product';
 export * from './use-cases/product/delete-product';
 export * from './use-cases/product/update-product';
+export * from './use-cases/product/deduct-product';
 export * from './interfaces/validation.interfaces';
 export * from './interfaces/product.interfaces';

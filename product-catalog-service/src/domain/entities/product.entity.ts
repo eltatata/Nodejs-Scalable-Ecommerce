@@ -30,7 +30,8 @@ export class ProductEntity {
     if (!description) throw CustomError.badRequest('Missing description');
     if (!price) throw CustomError.badRequest('Missing price');
     if (!category) throw CustomError.badRequest('Missing category');
-    if (!inventory) throw CustomError.badRequest('Missing inventory');
+    if (inventory === undefined || inventory === null)
+      throw CustomError.badRequest('Missing inventory');
     if (!images) throw CustomError.badRequest('Missing images');
 
     return new ProductEntity(

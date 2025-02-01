@@ -26,6 +26,7 @@ export class ProductRoutes {
       FilesMiddleware.upload.array('images', 5),
       productController.updateProduct,
     );
+    router.patch('/:id/deduct', productController.deductProduct);
     router.delete('/:id', productController.deleteProduct);
 
     return router;

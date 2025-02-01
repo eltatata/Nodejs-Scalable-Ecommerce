@@ -3,6 +3,7 @@ import { ErrorHandlerService } from '../';
 import {
   CreateProduct,
   CreateProductDto,
+  DeductProduct,
   DeleteProduct,
   FindProduct,
   FindProducts,
@@ -72,6 +73,16 @@ export class ProductController {
 
     new UpdateProduct(this.productRepository)
       .execute(validatedData!)
+      .then((product) => res.status(200).json(product))
+      .catch((error) => ErrorHandlerService.handleError(error, res));
+  };
+
+  deductProduct = (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { quantity } = req.body;
+
+    new DeductProduct(this.productRepository)
+      .execute(id, quantity)
       .then((product) => res.status(200).json(product))
       .catch((error) => ErrorHandlerService.handleError(error, res));
   };
