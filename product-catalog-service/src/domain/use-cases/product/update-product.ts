@@ -23,15 +23,6 @@ export class UpdateProduct implements UpdateProductUseCase {
     if (!currentProduct) throw CustomError.notFound('Product not found');
 
     if (
-      updateProductDto.name === currentProduct.name &&
-      updateProductDto.description === currentProduct.description &&
-      updateProductDto.price === currentProduct.price &&
-      updateProductDto.category === currentProduct.category
-    ) {
-      throw CustomError.conflict('No changes detected');
-    }
-
-    if (
       updateProductDto.name &&
       updateProductDto.name !== currentProduct.name
     ) {
@@ -41,10 +32,18 @@ export class UpdateProduct implements UpdateProductUseCase {
       if (existingProduct) throw CustomError.conflict('Product already exists');
     }
 
-    const imageInfo = await this.cloudinaryStorageService.upload(
-      updateProductDto.images,
-    );
-    const updatedImages = [...currentProduct.images, ...imageInfo];
+    let updatedImages = currentProduct.images;
+    if (updateProductDto.images) {
+      if (currentProduct.images.length + updateProductDto.images.length > 5) {
+        throw CustomError.badRequest('Maximum of 5 images allowed');
+      }
+
+      const imageInfo = await this.cloudinaryStorageService.upload(
+        updateProductDto.images,
+      );
+
+      updatedImages = [...currentProduct.images, ...imageInfo];
+    }
 
     const updatedProduct = await this.productRepository.update({
       ...updateProductDto,

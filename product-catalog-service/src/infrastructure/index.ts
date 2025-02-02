@@ -3,3 +3,4 @@ export * from './datasources/product.datasource.impl';
 export * from './repositories/category.repository.impl';
 export * from './repositories/product.repository.impl';
 export * from './middlewares/files.middleware';
+export * from './middlewares/global-error.middleware';

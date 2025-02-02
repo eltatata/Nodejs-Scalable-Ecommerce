@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import { v2 as cloudinary } from 'cloudinary';
+import { GlobalErrorMiddleware } from '../infrastructure';
 
 interface CloudinaryConfig {
   cloud_name: string;
@@ -34,6 +35,8 @@ export class Server {
     this.app.use(express.json());
 
     this.app.use(this.routes);
+
+    this.app.use(GlobalErrorMiddleware.handle);
 
     this.serverListener = this.app.listen(this.port, () => {
       console.log(`Server running on http://localhost:${this.port}`);
