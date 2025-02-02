@@ -1,9 +1,9 @@
-import { CloudinaryStorageService } from '../../../presentation';
 import {
   CreateProductDto,
   CustomError,
   ProductEntity,
   ProductRepository,
+  StoreRepository,
 } from '../../';
 
 export interface CreateProductUseCase {
@@ -13,7 +13,7 @@ export interface CreateProductUseCase {
 export class CreateProduct implements CreateProductUseCase {
   constructor(
     private readonly productRepository: ProductRepository,
-    private readonly cloudinaryStorageService: CloudinaryStorageService = new CloudinaryStorageService(),
+    private readonly storeRepository: StoreRepository,
   ) {}
 
   async execute(createProductDto: CreateProductDto): Promise<ProductEntity> {
@@ -24,7 +24,7 @@ export class CreateProduct implements CreateProductUseCase {
     );
     if (existingProduct) throw CustomError.conflict('Product already exists');
 
-    const imageInfo = await this.cloudinaryStorageService.upload(images);
+    const imageInfo = await this.storeRepository.upload(images);
 
     return this.productRepository.create({ ...productData, images: imageInfo });
   }

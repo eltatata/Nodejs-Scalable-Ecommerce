@@ -1,9 +1,9 @@
-import { CloudinaryStorageService } from '../../../presentation';
 import {
   CustomError,
   ProductEntity,
   ProductRepository,
   UpdateProductDto,
+  StoreRepository,
 } from '../../';
 
 export interface UpdateProductUseCase {
@@ -13,7 +13,7 @@ export interface UpdateProductUseCase {
 export class UpdateProduct implements UpdateProductUseCase {
   constructor(
     private readonly productRepository: ProductRepository,
-    private readonly cloudinaryStorageService: CloudinaryStorageService = new CloudinaryStorageService(),
+    private readonly storeRepository: StoreRepository,
   ) {}
 
   async execute(updateProductDto: UpdateProductDto): Promise<ProductEntity> {
@@ -38,7 +38,7 @@ export class UpdateProduct implements UpdateProductUseCase {
         throw CustomError.badRequest('Maximum of 5 images allowed');
       }
 
-      const imageInfo = await this.cloudinaryStorageService.upload(
+      const imageInfo = await this.storeRepository.upload(
         updateProductDto.images,
       );
 

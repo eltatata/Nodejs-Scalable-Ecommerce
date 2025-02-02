@@ -3,6 +3,8 @@ import {
   FilesMiddleware,
   ProductDataSourceImpl,
   ProductRepositoryImpl,
+  StoreDataSourceImpl,
+  StoreRepositoryImpl,
 } from '../../infrastructure';
 import { ProductController } from '../';
 
@@ -11,8 +13,13 @@ export class ProductRoutes {
     const router = Router();
 
     const productDataSource = new ProductDataSourceImpl();
+    const storeDataSource = new StoreDataSourceImpl();
     const productRepository = new ProductRepositoryImpl(productDataSource);
-    const productController = new ProductController(productRepository);
+    const storeRepository = new StoreRepositoryImpl(storeDataSource);
+    const productController = new ProductController(
+      productRepository,
+      storeRepository,
+    );
 
     router.get('/', productController.findProducts);
     router.get('/:id', productController.findProduct);

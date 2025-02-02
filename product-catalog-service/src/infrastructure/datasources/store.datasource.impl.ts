@@ -1,12 +1,8 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { envs } from '../../config';
+import { ImageInfo, StoreDataSource } from '../../domain/';
 
-interface ImageInfo {
-  secureUrl: string;
-  publicId: string;
-}
-
-export class CloudinaryStorageService {
+export class StoreDataSourceImpl implements StoreDataSource {
   async upload(images: Buffer[]): Promise<ImageInfo[]> {
     const uploadImage = (image: Buffer): Promise<ImageInfo> => {
       return new Promise((resolve, reject) => {
@@ -23,7 +19,6 @@ export class CloudinaryStorageService {
           .end(image);
       });
     };
-
     return await Promise.all(images.map(uploadImage));
   }
 

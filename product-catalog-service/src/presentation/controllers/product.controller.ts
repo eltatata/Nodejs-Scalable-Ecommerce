@@ -8,12 +8,16 @@ import {
   FindProduct,
   FindProducts,
   ProductRepository,
+  StoreRepository,
   UpdateProduct,
   UpdateProductDto,
 } from '../../domain';
 
 export class ProductController {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(
+    private readonly productRepository: ProductRepository,
+    private readonly storeRepository: StoreRepository,
+  ) {}
 
   findProducts = (req: Request, res: Response) => {
     new FindProducts(this.productRepository)
@@ -47,7 +51,7 @@ export class ProductController {
       return;
     }
 
-    new CreateProduct(this.productRepository)
+    new CreateProduct(this.productRepository, this.storeRepository)
       .execute(validatedData!)
       .then((product) => res.status(201).json(product))
       .catch((error) => ErrorHandlerService.handleError(error, res));
@@ -71,7 +75,7 @@ export class ProductController {
       return;
     }
 
-    new UpdateProduct(this.productRepository)
+    new UpdateProduct(this.productRepository, this.storeRepository)
       .execute(validatedData!)
       .then((product) => res.status(200).json(product))
       .catch((error) => ErrorHandlerService.handleError(error, res));
@@ -90,7 +94,7 @@ export class ProductController {
   deleteProduct = (req: Request, res: Response) => {
     const { id } = req.params;
 
-    new DeleteProduct(this.productRepository)
+    new DeleteProduct(this.productRepository, this.storeRepository)
       .execute(id)
       .then(() => res.status(204).send())
       .catch((error) => ErrorHandlerService.handleError(error, res));

@@ -1,5 +1,9 @@
-import { CloudinaryStorageService } from '../../../presentation';
-import { CustomError, ProductEntity, ProductRepository } from '../../';
+import {
+  CustomError,
+  ProductEntity,
+  ProductRepository,
+  StoreRepository,
+} from '../../';
 
 export interface DeleteProductUseCase {
   execute(id: string): Promise<ProductEntity>;
@@ -8,14 +12,14 @@ export interface DeleteProductUseCase {
 export class DeleteProduct implements DeleteProductUseCase {
   constructor(
     private readonly productRepository: ProductRepository,
-    private readonly cloudinaryStorageService: CloudinaryStorageService = new CloudinaryStorageService(),
+    private readonly storeRepository: StoreRepository,
   ) {}
 
   async execute(id: string): Promise<ProductEntity> {
     const product = await this.productRepository.delete(id);
     if (!product) throw CustomError.notFound('Product not found');
 
-    await this.cloudinaryStorageService.delete(product.images);
+    await this.storeRepository.delete(product.images);
 
     return product;
   }
