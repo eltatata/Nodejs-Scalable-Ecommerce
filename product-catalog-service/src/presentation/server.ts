@@ -1,4 +1,5 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
+import morgan from 'morgan';
 import { v2 as cloudinary } from 'cloudinary';
 import { ErrorHandlerService } from './';
 
@@ -33,6 +34,7 @@ export class Server {
     cloudinary.config(this.cloudinaryConfig);
 
     this.app.use(express.json());
+    this.app.use(morgan('dev'));
 
     this.app.use(this.routes);
 
