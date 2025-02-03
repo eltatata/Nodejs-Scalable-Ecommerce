@@ -1,5 +1,6 @@
-import express, { Router } from 'express';
+import express, { Router, Request, Response, NextFunction } from 'express';
 import morgan from 'morgan';
+import { ErrorHandlerService } from './';
 
 interface Options {
   port: number;
@@ -25,6 +26,13 @@ export class Server {
     this.app.use(morgan('dev'));
 
     this.app.use(this.routes);
+
+    this.app.use(
+      (err: unknown, req: Request, res: Response, next: NextFunction) => {
+        ErrorHandlerService.handleError(err, res);
+        next();
+      },
+    );
 
     this.serverListener = this.app.listen(this.port, () => {
       console.log(`Server running on http://localhost:${this.port}`);
