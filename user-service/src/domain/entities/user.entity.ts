@@ -1,4 +1,14 @@
-import { CustomError } from "../";
+import { CustomError } from '../';
+
+interface UserEntityProps {
+  id: string;
+  name: string;
+  lastname: string;
+  email: string;
+  role: string;
+  address?: string;
+  phone?: string;
+}
 
 export class UserEntity {
   constructor(
@@ -9,17 +19,18 @@ export class UserEntity {
     public role: string,
     public address?: string,
     public phone?: string,
-  ) { }
+  ) {}
 
-  static fromObject(obj: any): UserEntity {
-    const { id, _id, name, lastname, email, role, address, phone } = obj;
+  static fromObject(obj: unknown): UserEntity {
+    const { id, name, lastname, email, role, address, phone } =
+      obj as UserEntityProps;
 
-    if (!id && !_id) throw CustomError.badRequest('Missing id');
+    if (!id) throw CustomError.badRequest('Missing id');
     if (!name) throw CustomError.badRequest('Missing name');
     if (!lastname) throw CustomError.badRequest('Missing lastname');
     if (!email) throw CustomError.badRequest('Missing email');
     if (!role) throw CustomError.badRequest('Missing role');
 
-    return new UserEntity(id || _id, name, lastname, email, role, address, phone);
+    return new UserEntity(id, name, lastname, email, role, address, phone);
   }
 }

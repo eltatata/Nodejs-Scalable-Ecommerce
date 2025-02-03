@@ -1,7 +1,12 @@
-import { UserEntity, UserDatasource, UserRepository, RegisterUserDto } from "../../domain";
+import {
+  UserEntity,
+  UserDatasource,
+  UserRepository,
+  RegisterUserDto,
+} from '../../domain';
 
 export class UserRepositoryImpl implements UserRepository {
-  constructor(private readonly userDatasource: UserDatasource) { }
+  constructor(private readonly userDatasource: UserDatasource) {}
 
   findUserById(id: string): Promise<UserEntity | null> {
     return this.userDatasource.findUserById(id);

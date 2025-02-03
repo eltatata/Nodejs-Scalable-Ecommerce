@@ -8,7 +8,7 @@ interface Options {
 
 export class Server {
   public readonly app = express();
-  private serverListener?: any;
+  private serverListener?: import('http').Server;
   private readonly port: number;
   private readonly routes: Router;
 

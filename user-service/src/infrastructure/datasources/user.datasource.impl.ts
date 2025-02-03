@@ -1,6 +1,6 @@
 import { bcryptAdapter } from '../../config';
 import { User } from '../../data';
-import { UserEntity, UserDatasource, RegisterUserDto } from "../../domain";
+import { UserEntity, UserDatasource, RegisterUserDto } from '../../domain';
 
 export class UserDatasourceImpl implements UserDatasource {
   async findUserById(id: string): Promise<UserEntity | null> {

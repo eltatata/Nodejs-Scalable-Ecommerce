@@ -1,4 +1,4 @@
-import { RegisterUserDto, UserEntity } from "../";
+import { RegisterUserDto, UserEntity } from '../';
 
 export abstract class UserDatasource {
   abstract findUserById(id: string): Promise<UserEntity | null>;
