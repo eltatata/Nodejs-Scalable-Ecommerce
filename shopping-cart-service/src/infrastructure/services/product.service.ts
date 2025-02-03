@@ -1,5 +1,5 @@
-import { envs } from "../../config";
-import { Product } from "../../domain";
+import { envs } from '../../config';
+import { Product } from '../../domain';
 
 export class ProductService {
   async findProductById(id: string): Promise<Product | null> {

@@ -1,5 +1,5 @@
-import { Cart } from "../../data";
-import { CartDataSource, CartEntity, Item } from "../../domain";
+import { Cart } from '../../data';
+import { CartDataSource, CartEntity, Item } from '../../domain';
 
 export class CartDataSourceImpl implements CartDataSource {
   async find(userId: string): Promise<CartEntity | null> {
@@ -13,12 +13,10 @@ export class CartDataSourceImpl implements CartDataSource {
     return CartEntity.fromObject(cart);
   }
 
-  async update(cart: CartEntity): Promise<CartEntity> {
-    const updatedCart = await Cart.findByIdAndUpdate(
-      cart.id,
-      cart,
-      { new: true }
-    );
-    return CartEntity.fromObject(updatedCart);
+  async update(cart: CartEntity): Promise<CartEntity | null> {
+    const updatedCart = await Cart.findByIdAndUpdate(cart.id, cart, {
+      new: true,
+    });
+    return updatedCart ? CartEntity.fromObject(updatedCart) : null;
   }
 }

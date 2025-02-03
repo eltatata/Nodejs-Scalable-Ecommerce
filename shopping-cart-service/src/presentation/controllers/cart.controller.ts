@@ -1,9 +1,16 @@
-import { Request, Response } from "express";
-import { ErrorHandlerService } from "../";
-import { AddItem, CartRepository, ClearCart, DeleteItem, GetCart, UpdateQuantity } from "../../domain";
+import { Request, Response } from 'express';
+import { ErrorHandlerService } from '../';
+import {
+  AddItem,
+  CartRepository,
+  ClearCart,
+  DeleteItem,
+  GetCart,
+  UpdateQuantity,
+} from '../../domain';
 
 export class CartController {
-  constructor(private cartRepository: CartRepository) { }
+  constructor(private cartRepository: CartRepository) {}
 
   addItem = async (req: Request, res: Response) => {
     const { userId } = req.params;
@@ -13,7 +20,7 @@ export class CartController {
       .execute(userId, item)
       .then((cart) => res.status(201).json(cart))
       .catch((error) => ErrorHandlerService.handleError(error, res));
-  }
+  };
 
   getCart = async (req: Request, res: Response) => {
     const { userId } = req.params;
@@ -22,7 +29,7 @@ export class CartController {
       .execute(userId)
       .then((cart) => res.status(200).json(cart))
       .catch((error) => ErrorHandlerService.handleError(error, res));
-  }
+  };
 
   updateQuantity = async (req: Request, res: Response) => {
     const { userId, productId } = req.params;
@@ -32,7 +39,7 @@ export class CartController {
       .execute(userId, productId, quantity)
       .then(() => res.status(204).send())
       .catch((error) => ErrorHandlerService.handleError(error, res));
-  }
+  };
 
   deleteItem = async (req: Request, res: Response) => {
     const { userId, productId } = req.params;
@@ -41,7 +48,7 @@ export class CartController {
       .execute(userId, productId)
       .then(() => res.status(204).send())
       .catch((error) => ErrorHandlerService.handleError(error, res));
-  }
+  };
 
   clearCart = async (req: Request, res: Response) => {
     const { userId } = req.params;
@@ -50,5 +57,5 @@ export class CartController {
       .execute(userId)
       .then(() => res.status(204).send())
       .catch((error) => ErrorHandlerService.handleError(error, res));
-  }
+  };
 }

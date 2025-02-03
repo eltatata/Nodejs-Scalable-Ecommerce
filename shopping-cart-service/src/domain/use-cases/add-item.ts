@@ -1,5 +1,5 @@
-import { ProductService } from "../../infrastructure";
-import { CartDataSource, CartEntity, CustomError, Item } from "../";
+import { ProductService } from '../../infrastructure';
+import { CartDataSource, CartEntity, CustomError, Item } from '../';
 
 export interface AddItemUseCase {
   execute(userId: string, item: Item): Promise<CartEntity>;
@@ -8,8 +8,8 @@ export interface AddItemUseCase {
 export class AddItem implements AddItemUseCase {
   constructor(
     private cartDataSource: CartDataSource,
-    private productService: ProductService = new ProductService()
-  ) { }
+    private productService: ProductService = new ProductService(),
+  ) {}
 
   async execute(userId: string, item: Item): Promise<CartEntity> {
     const product = await this.productService.findProductById(item.productId);
@@ -25,7 +25,10 @@ export class AddItem implements AddItemUseCase {
 
     let cart = await this.cartDataSource.find(userId);
     if (!cart) {
-      cart = await this.cartDataSource.create(userId, { ...item, price: product.price });
+      cart = await this.cartDataSource.create(userId, {
+        ...item,
+        price: product.price,
+      });
       return cart;
     }
 
@@ -43,6 +46,10 @@ export class AddItem implements AddItemUseCase {
       });
     }
 
-    return this.cartDataSource.update(cart);
+    const updatedCart = await this.cartDataSource.update(cart);
+    if (!updatedCart) {
+      throw CustomError.internalServer('Failed to add item to cart');
+    }
+    return updatedCart;
   }
 }

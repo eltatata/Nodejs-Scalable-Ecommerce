@@ -1,16 +1,14 @@
-import { CartDataSource, CustomError } from "../";
+import { CartDataSource, CustomError } from '../';
 
 export interface DeleteItemUseCase {
   execute(userId: string, productId: string): Promise<void>;
 }
 
 export class DeleteItem implements DeleteItemUseCase {
-  constructor(
-    private cartDataSource: CartDataSource
-  ) { }
+  constructor(private cartDataSource: CartDataSource) {}
 
   async execute(userId: string, productId: string): Promise<void> {
-    let cart = await this.cartDataSource.find(userId);
+    const cart = await this.cartDataSource.find(userId);
     if (!cart) throw CustomError.notFound('Cart not found');
 
     const itemIndex = cart.items.findIndex((i) => i.productId === productId);

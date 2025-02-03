@@ -1,11 +1,11 @@
-import { CartDataSource, CartEntity, CustomError } from "../";
+import { CartDataSource, CartEntity, CustomError } from '../';
 
 export interface GetCartUseCase {
   execute(userId: string): Promise<CartEntity>;
 }
 
 export class GetCart implements GetCartUseCase {
-  constructor(private readonly cartDatasource: CartDataSource) { }
+  constructor(private readonly cartDatasource: CartDataSource) {}
 
   async execute(userId: string): Promise<CartEntity> {
     const cart = await this.cartDatasource.find(userId);
