@@ -1,8 +1,8 @@
-import { CreatePaymentDto, PaymentEntity } from '../';
+import { createPaymentData, PaymentEntity } from '../';
 
 export abstract class PaymentRepository {
   abstract createPayment(
-    createPaymentDto: CreatePaymentDto,
+    createPaymentData: createPaymentData,
   ): Promise<PaymentEntity>;
   abstract getPaymentById(paymentId: string): Promise<PaymentEntity | null>;
 }

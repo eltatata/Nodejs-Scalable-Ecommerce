@@ -3,5 +3,7 @@ export * from './entitites/payment.entity';
 export * from './datasources/payment.datasource';
 export * from './repositories/payment.repository';
 export * from './dtos/payment/create-payment.dto';
+export * from './use-cases/create-payment';
+export * from './use-cases/get-payment';
 export * from './interfaces/validation.interfaces';
 export * from './interfaces/payment.interface';
