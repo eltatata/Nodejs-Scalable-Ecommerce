@@ -1,7 +1,7 @@
 import { CustomError, Item } from '../';
 
 interface CartEntityProps {
-  id?: string;
+  id: string;
   userId: string;
   items: Item[];
   createdAt: Date;
@@ -17,7 +17,7 @@ export class CartEntity {
     public updatedAt: Date,
   ) {}
 
-  static fromObject(obj: CartEntityProps): CartEntity {
+  static fromObject(obj: unknown): CartEntity {
     const { id, userId, items, createdAt, updatedAt } = obj as CartEntityProps;
 
     if (!id) throw CustomError.badRequest('Missing id');

@@ -1,13 +1,13 @@
 import { Payment } from '../../data';
 import {
-  createPaymentData,
+  CreatePaymentData,
   PaymentDataSource,
   PaymentEntity,
 } from '../../domain';
 
 export class PaymentDatasourceImpl implements PaymentDataSource {
   async createPayment(
-    createPaymentData: createPaymentData,
+    createPaymentData: CreatePaymentData,
   ): Promise<PaymentEntity> {
     const payment = new Payment({
       orderId: createPaymentData.orderId,

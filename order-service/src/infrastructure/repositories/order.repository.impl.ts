@@ -1,12 +1,13 @@
 import {
   CreateOrderData,
+  OrderDataSource,
   OrderEntity,
   OrderRepository,
   UpdateOrderDto,
 } from '../../domain';
 
 export class OrderRepositoryImpl implements OrderRepository {
-  constructor(private readonly orderDataSource: OrderRepository) {}
+  constructor(private readonly orderDataSource: OrderDataSource) {}
 
   createOrder(createOrderData: CreateOrderData): Promise<OrderEntity> {
     return this.orderDataSource.createOrder(createOrderData);

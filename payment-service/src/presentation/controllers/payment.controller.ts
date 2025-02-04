@@ -17,8 +17,6 @@ export class PaymentController {
       paymentMethod: req.body.paymentMethod,
     };
 
-    console.log('data', data);
-
     const { errors, validatedData } = CreatePaymentDto.create(data);
     if (errors) {
       res.status(400).json({ errors });

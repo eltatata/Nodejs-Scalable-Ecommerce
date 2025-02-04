@@ -1,5 +1,5 @@
 import {
-  createPaymentData,
+  CreatePaymentData,
   PaymentDataSource,
   PaymentEntity,
   PaymentRepository,
@@ -8,7 +8,7 @@ import {
 export class PaymentRepositoryImpl implements PaymentRepository {
   constructor(private readonly paymentDataSource: PaymentDataSource) {}
 
-  createPayment(createPaymentData: createPaymentData): Promise<PaymentEntity> {
+  createPayment(createPaymentData: CreatePaymentData): Promise<PaymentEntity> {
     return this.paymentDataSource.createPayment(createPaymentData);
   }
 
