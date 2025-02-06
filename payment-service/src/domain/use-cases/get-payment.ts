@@ -5,7 +5,7 @@ export interface GetPaymentUseCase {
 }
 
 export class GetPayment implements GetPaymentUseCase {
-  constructor(private paymentRepository: PaymentRepository) {}
+  constructor(private readonly paymentRepository: PaymentRepository) {}
 
   async execute(paymentId: string): Promise<PaymentEntity> {
     const payment = await this.paymentRepository.getPaymentById(paymentId);
