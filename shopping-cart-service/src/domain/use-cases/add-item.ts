@@ -41,6 +41,7 @@ export class AddItem implements AddItemUseCase {
     } else {
       cart.items.push({
         productId: item.productId,
+        name: product.name,
         quantity: item.quantity,
         price: product.price,
       });
