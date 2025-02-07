@@ -1,20 +1,13 @@
 import { Router } from 'express';
-import {
-  PaymentDatasourceImpl,
-  PaymentRepositoryImpl,
-} from '../../infrastructure';
-import { PaymentController } from '../';
+import { CheckoutController } from '../';
 
 export class PaymentRoutes {
   static get routes(): Router {
     const router = Router();
 
-    const paymentDataSource = new PaymentDatasourceImpl();
-    const paymenteRepository = new PaymentRepositoryImpl(paymentDataSource);
-    const paymentController = new PaymentController(paymenteRepository);
+    const checkoutController = new CheckoutController();
 
-    router.post('/', paymentController.createPayment);
-    router.get('/:paymentId', paymentController.getPayment);
+    router.post('/checkout', checkoutController.checkout);
 
     return router;
   }

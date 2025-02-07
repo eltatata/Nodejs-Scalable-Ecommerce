@@ -1,40 +1,25 @@
 import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
-import {
-  CreatePayment,
-  CreatePaymentDto,
-  GetPayment,
-  PaymentRepository,
-} from '../../domain';
+import { Checkout, CheckoutDto } from '../../domain';
 
-export class PaymentController {
-  constructor(private readonly paymentRepository: PaymentRepository) {}
+export class CheckoutController {
+  constructor() {}
 
-  createPayment = (req: Request, res: Response) => {
+  checkout = (req: Request, res: Response) => {
     const data = {
       orderId: req.body.orderId,
-      amount: req.body.amount,
-      paymentMethod: req.body.paymentMethod,
+      items: req.body.items,
     };
 
-    const { errors, validatedData } = CreatePaymentDto.create(data);
+    const { errors, validatedData } = CheckoutDto.create(data);
     if (errors) {
       res.status(400).json({ errors });
       return;
     }
 
-    new CreatePayment(this.paymentRepository)
+    new Checkout()
       .execute(validatedData!)
       .then((payment) => res.status(201).json(payment))
-      .catch((error) => ErrorHandlerService.handleError(error, res));
-  };
-
-  getPayment = (req: Request, res: Response) => {
-    const paymentId = req.params.paymentId;
-
-    new GetPayment(this.paymentRepository)
-      .execute(paymentId)
-      .then((payment) => res.status(200).json(payment))
       .catch((error) => ErrorHandlerService.handleError(error, res));
   };
 }
