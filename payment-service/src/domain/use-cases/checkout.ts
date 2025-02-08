@@ -1,9 +1,14 @@
-import { CheckoutDto, CustomError, OrderRepository } from '../';
 import { Stripe } from 'stripe';
 import { envs } from '../../config';
+import { CheckoutDto, CustomError, Order, OrderRepository } from '../';
+
+interface CheckoutResponse {
+  url: string;
+  order: Order;
+}
 
 export interface CheckoutUseCase {
-  execute(CheckoutDto: CheckoutDto): Promise<{ url: string }>;
+  execute(CheckoutDto: CheckoutDto): Promise<CheckoutResponse>;
 }
 
 export class Checkout implements CheckoutUseCase {
@@ -12,7 +17,7 @@ export class Checkout implements CheckoutUseCase {
     private readonly stripe = new Stripe(envs.STRIPE_SECRET_KEY),
   ) {}
 
-  async execute(checkoutDto: CheckoutDto): Promise<{ url: string }> {
+  async execute(checkoutDto: CheckoutDto): Promise<CheckoutResponse> {
     const response = await this.orderRespository.createOrder(checkoutDto);
 
     if (!response.ok) {
@@ -20,7 +25,7 @@ export class Checkout implements CheckoutUseCase {
       throw CustomError.badRequest(error);
     }
 
-    const session = await this.stripe.checkout.sessions.create({
+    const { url } = await this.stripe.checkout.sessions.create({
       line_items: checkoutDto.items.map((item) => ({
         price_data: {
           currency: 'cop',
@@ -40,10 +45,13 @@ export class Checkout implements CheckoutUseCase {
       cancel_url: 'https://example.com/cancel',
     });
 
-    if (!session.url) {
+    if (!url) {
       throw CustomError.internalServer('Error creating payment session');
     }
 
-    return { url: session.url };
+    return {
+      url,
+      order: await response.json(),
+    };
   }
 }

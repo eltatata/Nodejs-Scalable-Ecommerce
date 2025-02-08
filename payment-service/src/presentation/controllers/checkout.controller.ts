@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ErrorHandlerService } from '../';
+import { ErrorHandlerService } from '..';
 import { Checkout, CheckoutDto, OrderRepository } from '../../domain';
 
 export class CheckoutController {
@@ -19,7 +19,7 @@ export class CheckoutController {
 
     new Checkout(this.orderRepository)
       .execute(validatedData!)
-      .then((payment) => res.status(201).json(payment))
+      .then((data) => res.status(201).json(data))
       .catch((error) => ErrorHandlerService.handleError(error, res));
   };
 }

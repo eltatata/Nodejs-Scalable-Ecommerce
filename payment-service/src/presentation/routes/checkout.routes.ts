@@ -5,7 +5,7 @@ import {
   OrderRepositoryImpl,
 } from '../../infrastructure/';
 
-export class PaymentRoutes {
+export class CheckoutRoutes {
   static get routes(): Router {
     const router = Router();
 
