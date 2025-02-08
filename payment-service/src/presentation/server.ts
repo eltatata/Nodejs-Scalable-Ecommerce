@@ -22,7 +22,13 @@ export class Server {
   }
 
   async start() {
-    this.app.use(express.json());
+    this.app.use((req, res, next) => {
+      if (req.originalUrl.includes('webhook')) {
+        next();
+      } else {
+        express.json()(req, res, next);
+      }
+    });
     this.app.use(morgan('dev'));
 
     this.app.use(this.routes);

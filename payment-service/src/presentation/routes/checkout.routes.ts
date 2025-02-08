@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
 import { CheckoutController } from '../';
 import {
   OrderDataSourceImpl,
@@ -14,6 +14,11 @@ export class CheckoutRoutes {
     const checkoutController = new CheckoutController(orderRepository);
 
     router.post('/checkout', checkoutController.checkout);
+    router.post(
+      '/webhook',
+      express.raw({ type: 'application/json' }),
+      checkoutController.webhook,
+    );
 
     return router;
   }

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ErrorHandlerService } from '..';
-import { Checkout, CheckoutDto, OrderRepository } from '../../domain';
+import { Checkout, CheckoutDto, OrderRepository, Webhook } from '../../domain';
 
 export class CheckoutController {
   constructor(private readonly orderRepository: OrderRepository) {}
@@ -20,6 +20,13 @@ export class CheckoutController {
     new Checkout(this.orderRepository)
       .execute(validatedData!)
       .then((data) => res.status(201).json(data))
+      .catch((error) => ErrorHandlerService.handleError(error, res));
+  };
+
+  webhook = (req: Request, res: Response) => {
+    new Webhook()
+      .execute(req)
+      .then(() => res.status(200).send())
       .catch((error) => ErrorHandlerService.handleError(error, res));
   };
 }
