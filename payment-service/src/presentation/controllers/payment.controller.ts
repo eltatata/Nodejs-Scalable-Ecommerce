@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
-import { Checkout, CheckoutDto } from '../../domain';
+import { Checkout, CheckoutDto, OrderRepository } from '../../domain';
 
 export class CheckoutController {
-  constructor() {}
+  constructor(private readonly orderRepository: OrderRepository) {}
 
   checkout = (req: Request, res: Response) => {
     const data = {
-      orderId: req.body.orderId,
+      userId: req.body.userId,
       items: req.body.items,
     };
 
@@ -17,7 +17,7 @@ export class CheckoutController {
       return;
     }
 
-    new Checkout()
+    new Checkout(this.orderRepository)
       .execute(validatedData!)
       .then((payment) => res.status(201).json(payment))
       .catch((error) => ErrorHandlerService.handleError(error, res));

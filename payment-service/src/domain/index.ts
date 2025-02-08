@@ -1,4 +1,6 @@
 export * from './errors/custom.error';
+export * from './datasources/order.datasource';
+export * from './repositories/order.repository';
 export * from './dtos/checkout/checkout.dto';
 export * from './use-cases/checkout';
 export * from './interfaces/validation.interfaces';

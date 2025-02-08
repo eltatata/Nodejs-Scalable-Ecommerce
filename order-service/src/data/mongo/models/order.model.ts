@@ -16,10 +16,10 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
+      enum: ['pending', 'paid', 'processing', 'shipped', 'delivered'],
       default: 'pending',
     },
-    address: { type: String, required: true },
+    address: { type: String },
   },
   {
     timestamps: true,

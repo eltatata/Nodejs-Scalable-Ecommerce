@@ -10,7 +10,7 @@ export class OrderRoutes {
     const orderRepository = new OrderRepositoryImpl(orderDataSource);
     const orderController = new OrderController(orderRepository);
 
-    router.post('/:userId', orderController.createOrder);
+    router.post('/', orderController.createOrder);
     router.get('/:userId/:orderId', orderController.getOrder);
     router.get('/:userId', orderController.getOrders);
     router.put('/:orderId', orderController.updateOrder);

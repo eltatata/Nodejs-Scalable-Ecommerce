@@ -1,4 +1,4 @@
-import { CheckoutDto, CustomError } from '..';
+import { CheckoutDto, CustomError, OrderRepository } from '../';
 import { Stripe } from 'stripe';
 import { envs } from '../../config';
 
@@ -7,9 +7,19 @@ export interface CheckoutUseCase {
 }
 
 export class Checkout implements CheckoutUseCase {
-  constructor(private readonly stripe = new Stripe(envs.STRIPE_SECRET_KEY)) {}
+  constructor(
+    private readonly orderRespository: OrderRepository,
+    private readonly stripe = new Stripe(envs.STRIPE_SECRET_KEY),
+  ) {}
 
   async execute(checkoutDto: CheckoutDto): Promise<{ url: string }> {
+    const response = await this.orderRespository.createOrder(checkoutDto);
+
+    if (!response.ok) {
+      const { error } = await response.json();
+      throw CustomError.badRequest(error);
+    }
+
     const session = await this.stripe.checkout.sessions.create({
       line_items: checkoutDto.items.map((item) => ({
         price_data: {

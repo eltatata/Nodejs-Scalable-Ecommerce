@@ -6,7 +6,7 @@ interface OrderEntityProps {
   items: Item[];
   totalAmount: number;
   status: string;
-  address: string;
+  address?: string;
   createdAt: string | Date;
 }
 
@@ -17,8 +17,8 @@ export class OrderEntity {
     public items: Item[],
     public totalAmount: number,
     public status: string,
-    public address: string,
     public createdAt: Date,
+    public address?: string,
   ) {}
 
   static fromObject(obj: unknown): OrderEntity {
@@ -30,7 +30,6 @@ export class OrderEntity {
     if (!items) throw CustomError.badRequest('Missing items');
     if (!totalAmount) throw CustomError.badRequest('Missing totalAmount');
     if (!status) throw CustomError.badRequest('Missing status');
-    if (!address) throw CustomError.badRequest('Missing address');
     if (!createdAt) throw CustomError.badRequest('Missing createdAt');
 
     return new OrderEntity(
@@ -39,8 +38,8 @@ export class OrderEntity {
       items,
       totalAmount,
       status,
-      address,
       new Date(createdAt),
+      address,
     );
   }
 }

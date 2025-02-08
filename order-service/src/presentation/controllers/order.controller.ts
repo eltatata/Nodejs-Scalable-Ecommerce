@@ -13,10 +13,8 @@ export class OrderController {
   constructor(private readonly orderRepository: OrderRepository) {}
 
   createOrder = (req: Request, res: Response) => {
-    const { userId } = req.params;
-    const data = { ...req.body, userId };
+    const { errors, validatedData } = CreateOrderDto.create(req.body);
 
-    const { errors, validatedData } = CreateOrderDto.create(data);
     if (errors) {
       res.status(400).json({ errors });
       return;

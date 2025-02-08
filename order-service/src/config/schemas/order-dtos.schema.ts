@@ -13,7 +13,6 @@ export const createOrderDtoSchema: z.ZodType<CreateOrderDto> = z.object({
       }),
     )
     .min(1, 'Items must have at least one product'),
-  address: z.string().trim().nonempty("Address can't be empty"),
 });
 
 export const updateOrderDtoSchema: z.ZodType<UpdateOrderDto> = z.object({
