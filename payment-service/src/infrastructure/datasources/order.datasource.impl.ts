@@ -18,6 +18,12 @@ export class OrderDataSourceImpl implements OrderDataSource {
   async updateOrder(orderId: string): Promise<Response> {
     return fetch(`${envs.ORDER_API_URL}/${orderId}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        status: 'paid',
+      }),
     });
   }
 }

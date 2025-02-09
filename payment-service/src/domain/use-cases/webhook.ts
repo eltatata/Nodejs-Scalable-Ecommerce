@@ -1,14 +1,17 @@
+import { Request } from 'express';
 import { Stripe } from 'stripe';
 import { envs } from '../../config';
-import { Request } from 'express';
-import { CustomError } from '../';
+import { CustomError, OrderRepository } from '../';
 
 export interface WebhookUseCase {
   execute(request: Request): Promise<void>;
 }
 
 export class Webhook implements WebhookUseCase {
-  constructor(private readonly stripe = new Stripe(envs.STRIPE_SECRET_KEY)) {}
+  constructor(
+    private readonly orderRepository: OrderRepository,
+    private readonly stripe = new Stripe(envs.STRIPE_SECRET_KEY),
+  ) {}
 
   async execute(request: Request): Promise<void> {
     const body = request.body;
@@ -45,10 +48,17 @@ export class Webhook implements WebhookUseCase {
 
     if (event.type === 'checkout.session.completed') {
       console.log(
-        `Payment for ${session.amount_total} was successful. Shipping to ${addressString}`,
+        `Payment for ${session?.metadata?.orderId} - ${session.amount_total} was successful. Shipping to ${addressString}`,
       );
-    } else {
-      console.log(`Unhandled event type: ${event.type}`);
+
+      const response = await this.orderRepository.updateOrder(
+        session?.metadata?.orderId as string,
+      );
+
+      if (!response.ok) {
+        const { error } = await response.json();
+        throw CustomError.badRequest(error);
+      }
     }
   }
 }

@@ -17,11 +17,5 @@ export const createOrderDtoSchema: z.ZodType<CreateOrderDto> = z.object({
 
 export const updateOrderDtoSchema: z.ZodType<UpdateOrderDto> = z.object({
   id: z.string().trim().nonempty("Order ID can't be empty"),
-  status: z.enum([
-    'pending',
-    'processing',
-    'shipped',
-    'delivered',
-    'cancelled',
-  ]),
+  status: z.enum(['pending', 'paid', 'processing', 'shipped', 'delivered']),
 });

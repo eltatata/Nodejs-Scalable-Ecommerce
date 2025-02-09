@@ -8,33 +8,35 @@ interface CheckoutResponse {
 }
 
 export interface CheckoutUseCase {
-  execute(CheckoutDto: CheckoutDto): Promise<CheckoutResponse>;
+  execute(checkoutDto: CheckoutDto): Promise<CheckoutResponse>;
 }
 
 export class Checkout implements CheckoutUseCase {
   constructor(
-    private readonly orderRespository: OrderRepository,
+    private readonly orderRepository: OrderRepository,
     private readonly stripe = new Stripe(envs.STRIPE_SECRET_KEY),
   ) {}
 
   async execute(checkoutDto: CheckoutDto): Promise<CheckoutResponse> {
-    const response = await this.orderRespository.createOrder(checkoutDto);
+    const response = await this.orderRepository.createOrder(checkoutDto);
 
     if (!response.ok) {
       const { error } = await response.json();
       throw CustomError.badRequest(error);
     }
 
+    const order = await response.json();
+
     const { url } = await this.stripe.checkout.sessions.create({
-      line_items: checkoutDto.items.map((item) => ({
+      line_items: checkoutDto.items.map(({ name, price, quantity }) => ({
         price_data: {
           currency: 'cop',
           product_data: {
-            name: item.name,
+            name,
           },
-          unit_amount: item.price * 100,
+          unit_amount: price * 100,
         },
-        quantity: item.quantity,
+        quantity,
       })),
       mode: 'payment',
       billing_address_collection: 'required',
@@ -43,6 +45,9 @@ export class Checkout implements CheckoutUseCase {
       },
       success_url: 'https://example.com/success',
       cancel_url: 'https://example.com/cancel',
+      metadata: {
+        orderId: order.id,
+      },
     });
 
     if (!url) {
@@ -51,7 +56,7 @@ export class Checkout implements CheckoutUseCase {
 
     return {
       url,
-      order: await response.json(),
+      order,
     };
   }
 }

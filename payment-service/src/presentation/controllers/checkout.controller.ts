@@ -24,7 +24,7 @@ export class CheckoutController {
   };
 
   webhook = (req: Request, res: Response) => {
-    new Webhook()
+    new Webhook(this.orderRepository)
       .execute(req)
       .then(() => res.status(200).send())
       .catch((error) => ErrorHandlerService.handleError(error, res));

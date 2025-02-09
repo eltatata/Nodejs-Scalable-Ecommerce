@@ -4,17 +4,12 @@ import { updateOrderDtoSchema, ZodAdapter } from '../../../config';
 export class UpdateOrderDto {
   constructor(
     public id: string,
-    public status:
-      | 'pending'
-      | 'processing'
-      | 'shipped'
-      | 'delivered'
-      | 'cancelled',
+    public status: 'pending' | 'paid' | 'processing' | 'shipped' | 'delivered',
   ) {}
 
   static update(props: {
     id: string;
-    status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+    status: 'pending' | 'paid' | 'processing' | 'shipped' | 'delivered';
   }): ValidationResult<UpdateOrderDto> {
     const { errors, validatedData } = ZodAdapter.validate(
       updateOrderDtoSchema,
