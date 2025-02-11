@@ -28,7 +28,7 @@ export class OrderDatasourceImpl implements OrderDataSource {
   ): Promise<OrderEntity | null> {
     const order = await Order.findByIdAndUpdate(
       updateOrderDto.id,
-      { status: updateOrderDto.status },
+      { status: updateOrderDto.status, address: updateOrderDto.address },
       { new: true },
     );
     return order ? OrderEntity.fromObject(order) : null;

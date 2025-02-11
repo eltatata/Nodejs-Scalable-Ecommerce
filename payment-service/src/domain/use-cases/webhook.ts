@@ -53,6 +53,7 @@ export class Webhook implements WebhookUseCase {
 
       const response = await this.orderRepository.updateOrder(
         session?.metadata?.orderId as string,
+        addressString,
       );
 
       if (!response.ok) {

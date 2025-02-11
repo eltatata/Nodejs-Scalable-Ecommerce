@@ -15,7 +15,7 @@ export class OrderDataSourceImpl implements OrderDataSource {
     });
   }
 
-  async updateOrder(orderId: string): Promise<Response> {
+  async updateOrder(orderId: string, address: string): Promise<Response> {
     return fetch(`${envs.ORDER_API_URL}/${orderId}`, {
       method: 'PUT',
       headers: {
@@ -23,6 +23,7 @@ export class OrderDataSourceImpl implements OrderDataSource {
       },
       body: JSON.stringify({
         status: 'paid',
+        address,
       }),
     });
   }

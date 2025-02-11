@@ -5,7 +5,7 @@ export class OrderRepositoryImpl implements OrderRepository {
   createOrder(checkoutDto: CheckoutDto): Promise<Response> {
     return this.orderDataSource.createOrder(checkoutDto);
   }
-  updateOrder(orderId: string): Promise<Response> {
-    return this.orderDataSource.updateOrder(orderId);
+  updateOrder(orderId: string, address: string): Promise<Response> {
+    return this.orderDataSource.updateOrder(orderId, address);
   }
 }
