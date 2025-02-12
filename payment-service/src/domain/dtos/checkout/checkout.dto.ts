@@ -1,5 +1,5 @@
 import { checkoutSchema, ZodAdapter } from '../../../config';
-import { Item, ValidationResult } from '../..';
+import { Item, ValidationResult } from '../../';
 
 interface CheckoutDtoProps {
   userId: string;

@@ -1,7 +1,6 @@
 import { Request } from 'express';
 import { Stripe } from 'stripe';
-import { envs } from '../../config';
-import { CustomError, OrderRepository } from '../';
+import { CustomError, OrderRepository, StripeRepository } from '../';
 
 export interface WebhookUseCase {
   execute(request: Request): Promise<void>;
@@ -10,7 +9,7 @@ export interface WebhookUseCase {
 export class Webhook implements WebhookUseCase {
   constructor(
     private readonly orderRepository: OrderRepository,
-    private readonly stripe = new Stripe(envs.STRIPE_SECRET_KEY),
+    private readonly stripeRepository: StripeRepository,
   ) {}
 
   async execute(request: Request): Promise<void> {
@@ -20,11 +19,7 @@ export class Webhook implements WebhookUseCase {
     let event: Stripe.Event;
 
     try {
-      event = this.stripe.webhooks.constructEvent(
-        body,
-        signature,
-        envs.STRIPE_WEBHOOK_SECRET,
-      );
+      event = await this.stripeRepository.constructEvent(body, signature);
     } catch (err) {
       console.error(err);
       throw CustomError.badRequest('Webhook Error');
@@ -47,10 +42,6 @@ export class Webhook implements WebhookUseCase {
       .join(', ');
 
     if (event.type === 'checkout.session.completed') {
-      console.log(
-        `Payment for ${session?.metadata?.orderId} - ${session.amount_total} was successful. Shipping to ${addressString}`,
-      );
-
       const response = await this.orderRepository.updateOrder(
         session?.metadata?.orderId as string,
         addressString,

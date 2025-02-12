@@ -1,9 +1,18 @@
 import { Request, Response } from 'express';
-import { ErrorHandlerService } from '..';
-import { Checkout, CheckoutDto, OrderRepository, Webhook } from '../../domain';
+import { ErrorHandlerService } from '../';
+import {
+  Checkout,
+  CheckoutDto,
+  OrderRepository,
+  StripeRepository,
+  Webhook,
+} from '../../domain';
 
 export class CheckoutController {
-  constructor(private readonly orderRepository: OrderRepository) {}
+  constructor(
+    private readonly orderRepository: OrderRepository,
+    private readonly stripeRepository: StripeRepository,
+  ) {}
 
   checkout = (req: Request, res: Response) => {
     const data = {
@@ -17,14 +26,14 @@ export class CheckoutController {
       return;
     }
 
-    new Checkout(this.orderRepository)
+    new Checkout(this.orderRepository, this.stripeRepository)
       .execute(validatedData!)
       .then((data) => res.status(201).json(data))
       .catch((error) => ErrorHandlerService.handleError(error, res));
   };
 
   webhook = (req: Request, res: Response) => {
-    new Webhook(this.orderRepository)
+    new Webhook(this.orderRepository, this.stripeRepository)
       .execute(req)
       .then(() => res.status(200).send())
       .catch((error) => ErrorHandlerService.handleError(error, res));
