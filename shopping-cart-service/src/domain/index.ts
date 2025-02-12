@@ -1,5 +1,7 @@
 export * from './repositories/cart.repository';
+export * from './repositories/product.repository';
 export * from './datasources/cart.datasource';
+export * from './datasources/product.datasource';
 export * from './use-cases/add-item';
 export * from './use-cases/get-cart';
 export * from './use-cases/update-quantity';

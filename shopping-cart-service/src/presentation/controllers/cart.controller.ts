@@ -6,17 +6,21 @@ import {
   ClearCart,
   DeleteItem,
   GetCart,
+  ProductRepository,
   UpdateQuantity,
 } from '../../domain';
 
 export class CartController {
-  constructor(private cartRepository: CartRepository) {}
+  constructor(
+    private readonly cartRepository: CartRepository,
+    private readonly productRepository: ProductRepository,
+  ) {}
 
   addItem = async (req: Request, res: Response) => {
     const { userId } = req.params;
     const item = req.body;
 
-    new AddItem(this.cartRepository)
+    new AddItem(this.cartRepository, this.productRepository)
       .execute(userId, item)
       .then((cart) => res.status(201).json(cart))
       .catch((error) => ErrorHandlerService.handleError(error, res));
@@ -35,7 +39,7 @@ export class CartController {
     const { userId, productId } = req.params;
     const { quantity } = req.body;
 
-    new UpdateQuantity(this.cartRepository)
+    new UpdateQuantity(this.cartRepository, this.productRepository)
       .execute(userId, productId, quantity)
       .then(() => res.status(204).send())
       .catch((error) => ErrorHandlerService.handleError(error, res));

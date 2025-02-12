@@ -1,6 +1,4 @@
-import { ProductService } from '../../infrastructure';
-import { CartDataSource } from '../datasources/cart.datasource';
-import { CustomError } from '../errors/custom.error';
+import { CartDataSource, CustomError, ProductDataSource } from '../';
 
 export interface UpdateQuantityUseCase {
   execute(userId: string, productId: string, quantity: number): Promise<void>;
@@ -9,7 +7,7 @@ export interface UpdateQuantityUseCase {
 export class UpdateQuantity implements UpdateQuantityUseCase {
   constructor(
     private cartDatasource: CartDataSource,
-    private productService: ProductService = new ProductService(),
+    private productDataSource: ProductDataSource,
   ) {}
 
   async execute(
@@ -23,7 +21,9 @@ export class UpdateQuantity implements UpdateQuantityUseCase {
     const item = cart.items.find((i) => i.productId === productId);
     if (!item) throw CustomError.notFound('Item not found');
 
-    const product = await this.productService.findProductById(productId);
+    const response = await this.productDataSource.findProductById(productId);
+    const product = await response.json();
+
     if (!product) throw CustomError.notFound('Product not found');
 
     if (quantity <= 0) {

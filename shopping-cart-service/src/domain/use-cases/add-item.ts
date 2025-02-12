@@ -1,5 +1,10 @@
-import { ProductService } from '../../infrastructure';
-import { CartDataSource, CartEntity, CustomError, Item } from '../';
+import {
+  CartDataSource,
+  CartEntity,
+  CustomError,
+  Item,
+  ProductDataSource,
+} from '../';
 
 export interface AddItemUseCase {
   execute(userId: string, item: Item): Promise<CartEntity>;
@@ -8,11 +13,15 @@ export interface AddItemUseCase {
 export class AddItem implements AddItemUseCase {
   constructor(
     private cartDataSource: CartDataSource,
-    private productService: ProductService = new ProductService(),
+    private productDataSource: ProductDataSource,
   ) {}
 
   async execute(userId: string, item: Item): Promise<CartEntity> {
-    const product = await this.productService.findProductById(item.productId);
+    const response = await this.productDataSource.findProductById(
+      item.productId,
+    );
+    const product = await response.json();
+
     if (!product) throw CustomError.notFound('Product not found');
 
     if (item.quantity <= 0) {
