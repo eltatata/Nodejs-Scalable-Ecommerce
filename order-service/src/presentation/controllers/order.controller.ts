@@ -5,12 +5,16 @@ import {
   CreateOrderDto,
   GetOrder,
   OrderRepository,
+  ProductRepository,
   UpdateOrder,
   UpdateOrderDto,
 } from '../../domain';
 
 export class OrderController {
-  constructor(private readonly orderRepository: OrderRepository) {}
+  constructor(
+    private readonly orderRepository: OrderRepository,
+    private readonly productRepository: ProductRepository,
+  ) {}
 
   createOrder = (req: Request, res: Response) => {
     const { errors, validatedData } = CreateOrderDto.create(req.body);
@@ -20,7 +24,7 @@ export class OrderController {
       return;
     }
 
-    new CreateOrder(this.orderRepository)
+    new CreateOrder(this.orderRepository, this.productRepository)
       .execute(validatedData!)
       .then((order) => res.status(201).json(order))
       .catch((error) => ErrorHandlerService.handleError(error, res));

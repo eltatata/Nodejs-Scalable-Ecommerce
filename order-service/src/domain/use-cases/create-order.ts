@@ -1,5 +1,10 @@
-import { ProductService } from '../../infrastructure';
-import { CustomError, CreateOrderDto, OrderEntity, OrderRepository } from '../';
+import {
+  CustomError,
+  CreateOrderDto,
+  OrderEntity,
+  OrderRepository,
+  ProductRepository,
+} from '../';
 
 export interface CreateOrderUseCase {
   execute(createOrderDto: CreateOrderDto): Promise<OrderEntity>;
@@ -8,15 +13,16 @@ export interface CreateOrderUseCase {
 export class CreateOrder implements CreateOrderUseCase {
   constructor(
     private readonly orderRepository: OrderRepository,
-    private productService: ProductService = new ProductService(),
+    private productRespository: ProductRepository,
   ) {}
 
   async execute(createOrderDto: CreateOrderDto): Promise<OrderEntity> {
     const reviewedProducts = await Promise.all(
       createOrderDto.items.map(async (item) => {
-        const product = await this.productService.findProductById(
+        const response = await this.productRespository.findProductById(
           item.productId,
         );
+        const product = await response.json();
 
         if (
           !product ||
@@ -46,7 +52,10 @@ export class CreateOrder implements CreateOrderUseCase {
 
     await Promise.all(
       createOrderDto.items.map(async (item) => {
-        await this.productService.deductProduct(item.productId, item.quantity);
+        await this.productRespository.deductProduct(
+          item.productId,
+          item.quantity,
+        );
       }),
     );
 
