@@ -16,7 +16,7 @@ export class CheckoutController {
 
   checkout = (req: Request, res: Response) => {
     const data = {
-      userId: req.body.userId,
+      userId: req.params.userId,
       items: req.body.items,
     };
 

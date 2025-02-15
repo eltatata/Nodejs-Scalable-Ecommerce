@@ -36,6 +36,7 @@ export class AddItem implements AddItemUseCase {
     if (!cart) {
       cart = await this.cartDataSource.create(userId, {
         ...item,
+        name: product.name,
         price: product.price,
       });
       return cart;

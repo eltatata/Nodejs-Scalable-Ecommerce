@@ -22,7 +22,7 @@ export class CheckoutRoutes {
       stripeRepository,
     );
 
-    router.post('/checkout', checkoutController.checkout);
+    router.post('/:userId/checkout', checkoutController.checkout);
     router.post(
       '/webhook',
       express.raw({ type: 'application/json' }),
