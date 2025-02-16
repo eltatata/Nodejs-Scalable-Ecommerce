@@ -103,6 +103,14 @@ app.use(
   }),
 );
 
+app.use(
+  '/webhook',
+  createProxyMiddleware({
+    target: `${services.payment}/payment/webhook`,
+    changeOrigin: true,
+  }),
+);
+
 // Root route
 app.get('/', (req: Request, res: Response) => {
   res.send('API Gateway is running');

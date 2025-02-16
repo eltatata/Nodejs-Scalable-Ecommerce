@@ -10,6 +10,7 @@ services:
     volumes:
       - ./api-gateway/.env:/app/.env
     networks:
+      - public-network
       - ecommerce-network
     depends_on:
       - user-service
@@ -85,6 +86,17 @@ services:
     container_name: payment-service
     volumes:
       - ./payment-service/.env:/app/.env
+    environment:
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+    networks:
+      - ecommerce-network
+
+  # Stripe CLI
+  stripe-cli:
+    image: stripe/stripe-cli:latest
+    command: listen --forward-to http://host.docker.internal:3000/webhook
+    environment:
+      STRIPE_API_KEY: ${STRIPE_SECRET_KEY}
     networks:
       - ecommerce-network
 
@@ -130,5 +142,8 @@ services:
       - ecommerce-network
 
 networks:
+  public-network:
+    driver: bridge
   ecommerce-network:
     driver: bridge
+    internal: true
