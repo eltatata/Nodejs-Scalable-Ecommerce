@@ -1,6 +1,94 @@
-version: "3.8"
-
 services:
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api-gateway/.env:/app/.env
+    networks:
+      - ecommerce-network
+    depends_on:
+      - user-service
+      - product-catalog-service
+      - shopping-cart-service
+      - order-service
+      - notification-service
+      - payment-service
+
+  # Microservices
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    volumes:
+      - ./user-service/.env:/app/.env
+    networks:
+      - ecommerce-network
+    depends_on:
+      - user-mongodb
+
+  product-catalog-service:
+    build:
+      context: ./product-catalog-service
+      dockerfile: Dockerfile
+    container_name: product-catalog-service
+    volumes:
+      - ./product-catalog-service/.env:/app/.env
+    networks:
+      - ecommerce-network
+    depends_on:
+      - product-catalog-mongodb
+
+  shopping-cart-service:
+    build:
+      context: ./shopping-cart-service
+      dockerfile: Dockerfile
+    container_name: shopping-cart-service
+    volumes:
+      - ./shopping-cart-service/.env:/app/.env
+    networks:
+      - ecommerce-network
+    depends_on:
+      - shopping-cart-mongodb
+
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    container_name: order-service
+    volumes:
+      - ./order-service/.env:/app/.env
+    networks:
+      - ecommerce-network
+    depends_on:
+      - order-mongodb
+
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    container_name: notification-service
+    volumes:
+      - ./notification-service/.env:/app/.env
+    networks:
+      - ecommerce-network
+
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    container_name: payment-service
+    volumes:
+      - ./payment-service/.env:/app/.env
+    networks:
+      - ecommerce-network
+
+  # Databases
   user-mongodb:
     image: mongo:latest
     container_name: user-mongodb
