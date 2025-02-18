@@ -47,7 +47,12 @@ app.use(
 // Product Catalog routes
 app.use(
   '/category',
-  checkJwt,
+  (req, res, next) => {
+    if (req.method !== 'GET') {
+      return checkJwt(req, res, next);
+    }
+    next();
+  },
   createProxyMiddleware({
     target: `${services.productCatalog}/category`,
     changeOrigin: true,
@@ -56,7 +61,12 @@ app.use(
 
 app.use(
   '/product',
-  checkJwt,
+  (req, res, next) => {
+    if (req.method !== 'GET') {
+      return checkJwt(req, res, next);
+    }
+    next();
+  },
   createProxyMiddleware({
     target: `${services.productCatalog}/product`,
     changeOrigin: true,
