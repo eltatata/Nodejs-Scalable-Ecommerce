@@ -6,6 +6,7 @@ interface UserEntityProps {
   lastname: string;
   email: string;
   role: string;
+  password?: string;
   address?: string;
   phone?: string;
 }
@@ -17,12 +18,13 @@ export class UserEntity {
     public lastname: string,
     public email: string,
     public role: string,
+    public password?: string,
     public address?: string,
     public phone?: string,
   ) {}
 
   static fromObject(obj: unknown): UserEntity {
-    const { id, name, lastname, email, role, address, phone } =
+    const { id, name, lastname, email, password, role, address, phone } =
       obj as UserEntityProps;
 
     if (!id) throw CustomError.badRequest('Missing id');
@@ -31,6 +33,15 @@ export class UserEntity {
     if (!email) throw CustomError.badRequest('Missing email');
     if (!role) throw CustomError.badRequest('Missing role');
 
-    return new UserEntity(id, name, lastname, email, role, address, phone);
+    return new UserEntity(
+      id,
+      name,
+      lastname,
+      email,
+      role,
+      password,
+      address,
+      phone,
+    );
   }
 }

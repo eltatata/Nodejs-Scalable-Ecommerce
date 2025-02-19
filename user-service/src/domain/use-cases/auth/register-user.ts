@@ -1,3 +1,4 @@
+import { bcryptAdapter } from '../../../config';
 import {
   CustomError,
   RegisterUserDto,
@@ -18,6 +19,16 @@ export class RegisterUser implements RegisterUserUseCase {
     );
     if (existingUser) throw CustomError.conflict('User already exists');
 
-    return this.userRepository.createUser(registerUserDto);
+    const userWithHashedPassword = {
+      ...registerUserDto,
+      password: bcryptAdapter.hash(registerUserDto.password),
+    };
+
+    const createdUser = await this.userRepository.createUser(
+      userWithHashedPassword,
+    );
+    delete createdUser.password;
+
+    return createdUser;
   }
 }

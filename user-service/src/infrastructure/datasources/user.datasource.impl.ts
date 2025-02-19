@@ -1,10 +1,9 @@
-import { bcryptAdapter } from '../../config';
 import { User } from '../../data';
 import { UserEntity, UserDatasource, RegisterUserDto } from '../../domain';
 
 export class UserDatasourceImpl implements UserDatasource {
   async findUserById(id: string): Promise<UserEntity | null> {
-    const user = await User.findById(id);
+    const user = await User.findById(id).select('-password');
     return user ? UserEntity.fromObject(user) : null;
   }
 
@@ -15,10 +14,7 @@ export class UserDatasourceImpl implements UserDatasource {
 
   async createUser(registerUserDto: RegisterUserDto): Promise<UserEntity> {
     const user = new User(registerUserDto);
-    user.password = bcryptAdapter.hash(registerUserDto.password);
-
     await user.save();
-
     return UserEntity.fromObject(user);
   }
 }

@@ -1,8 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
-import morgan from 'morgan';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import morgan from 'morgan';
 import { envs } from './config/envs.adapter';
-import { checkJwt, RequestExt } from './middlewares/token.middleware';
+import { RequestExt } from './interfaces/req.interfaces';
+import { checkJwt } from './middlewares/token.middleware';
+import { checkRole } from './middlewares/role.middleware';
 
 const services = {
   user: envs.USER_SERVICE_URL,
@@ -39,7 +41,7 @@ app.use(
   '/user',
   checkJwt,
   createProxyMiddleware({
-    router: (req: RequestExt) => `${services.user}/user/${req.uid}`,
+    router: (req: RequestExt) => `${services.user}/user/${req.user?.id}`,
     changeOrigin: true,
   }),
 );
@@ -47,9 +49,15 @@ app.use(
 // Product Catalog routes
 app.use(
   '/category',
-  (req, res, next) => {
+  (req: Request, res: Response, next: NextFunction) => {
     if (req.method !== 'GET') {
       return checkJwt(req, res, next);
+    }
+    next();
+  },
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.method !== 'GET') {
+      return checkRole('admin')(req as RequestExt, res, next);
     }
     next();
   },
@@ -61,9 +69,15 @@ app.use(
 
 app.use(
   '/product',
-  (req, res, next) => {
+  (req: Request, res: Response, next: NextFunction) => {
     if (req.method !== 'GET') {
       return checkJwt(req, res, next);
+    }
+    next();
+  },
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.method !== 'GET') {
+      return checkRole('admin')(req as RequestExt, res, next);
     }
     next();
   },
@@ -78,7 +92,8 @@ app.use(
   '/cart',
   checkJwt,
   createProxyMiddleware({
-    router: (req: RequestExt) => `${services.shoppingCart}/cart/${req.uid}`,
+    router: (req: RequestExt) =>
+      `${services.shoppingCart}/cart/${req.user?.id}`,
     changeOrigin: true,
   }),
 );
@@ -89,7 +104,7 @@ app.use(
   checkJwt,
   createProxyMiddleware({
     router: (req: RequestExt) =>
-      `${services.order}/order/${req.uid}/${req.params.orderId}`,
+      `${services.order}/order/${req.user?.id}/${req.params.orderId}`,
     changeOrigin: true,
   }),
 );
@@ -98,7 +113,7 @@ app.use(
   '/order',
   checkJwt,
   createProxyMiddleware({
-    router: (req: RequestExt) => `${services.order}/order/${req.uid}`,
+    router: (req: RequestExt) => `${services.order}/order/${req.user?.id}`,
     changeOrigin: true,
   }),
 );
@@ -108,7 +123,7 @@ app.use(
   '/payment',
   checkJwt,
   createProxyMiddleware({
-    router: (req: RequestExt) => `${services.payment}/payment/${req.uid}`,
+    router: (req: RequestExt) => `${services.payment}/payment/${req.user?.id}`,
     changeOrigin: true,
   }),
 );

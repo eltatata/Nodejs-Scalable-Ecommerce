@@ -8,6 +8,7 @@ export const userSchema: z.ZodType<UserEntity> = z.object({
   lastname: z.string().min(1),
   email: z.string().email(),
   role: z.string(),
+  password: z.string().min(5),
   address: z.string().optional(),
   phone: z.string().optional(),
 });

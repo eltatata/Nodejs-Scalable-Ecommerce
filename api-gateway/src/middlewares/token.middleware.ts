@@ -1,10 +1,7 @@
-import { envs } from '../config/envs.adapter';
+import { NextFunction, Response } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
-import { NextFunction, Request, Response } from 'express';
-
-export interface RequestExt extends Request {
-  uid?: JwtPayload | { id: string };
-}
+import { envs } from '../config/envs.adapter';
+import { RequestExt } from '../interfaces/req.interfaces';
 
 export const checkJwt = async (
   req: RequestExt,
@@ -27,7 +24,7 @@ export const checkJwt = async (
       return;
     }
 
-    req.uid = payload.id;
+    req.user = payload;
 
     next();
   } catch {
