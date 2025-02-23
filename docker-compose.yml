@@ -144,6 +144,6 @@ services:
 networks:
   public-network:
     driver: bridge
+    internal: false
   ecommerce-network:
     driver: bridge
-    internal: true
