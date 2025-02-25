@@ -19,128 +19,98 @@ const port = envs.PORT;
 
 app.use(morgan('dev'));
 
-// Auth routes
-app.use(
-  '/auth/register',
+// Helper function to create proxy middleware
+const createProxy = (target: string, router?: (req: RequestExt) => string) =>
   createProxyMiddleware({
-    target: `${services.user}/auth/register`,
+    target,
     changeOrigin: true,
-  }),
-);
+    router,
+  });
 
-app.use(
-  '/auth/login',
-  createProxyMiddleware({
-    target: `${services.user}/auth/login`,
-    changeOrigin: true,
-  }),
-);
+// Helper function to add authentication and role checks
+const addAuthAndRoleChecks =
+  (role: 'admin' | 'user') =>
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.method !== 'GET') {
+      return checkJwt(req, res, () =>
+        checkRole(role)(req as RequestExt, res, next),
+      );
+    }
+    next();
+  };
+
+// Auth routes
+app.use('/auth/register', createProxy(`${services.user}/auth/register`));
+app.use('/auth/login', createProxy(`${services.user}/auth/login`));
 
 // User routes
 app.use(
   '/user',
   checkJwt,
-  createProxyMiddleware({
-    router: (req: RequestExt) => `${services.user}/user/${req.user?.id}`,
-    changeOrigin: true,
-  }),
+  createProxy(
+    services.user,
+    (req: RequestExt) => `${services.user}/user/${req.user?.id}`,
+  ),
 );
 
 // Product Catalog routes
 app.use(
   '/category',
-  (req: Request, res: Response, next: NextFunction) => {
-    if (req.method !== 'GET') {
-      return checkJwt(req, res, next);
-    }
-    next();
-  },
-  (req: Request, res: Response, next: NextFunction) => {
-    if (req.method !== 'GET') {
-      return checkRole('admin')(req as RequestExt, res, next);
-    }
-    next();
-  },
-  createProxyMiddleware({
-    target: `${services.productCatalog}/category`,
-    changeOrigin: true,
-  }),
+  addAuthAndRoleChecks('admin'),
+  createProxy(`${services.productCatalog}/category`),
 );
-
 app.use(
   '/product',
-  (req: Request, res: Response, next: NextFunction) => {
-    if (req.method !== 'GET') {
-      return checkJwt(req, res, next);
-    }
-    next();
-  },
-  (req: Request, res: Response, next: NextFunction) => {
-    if (req.method !== 'GET') {
-      return checkRole('admin')(req as RequestExt, res, next);
-    }
-    next();
-  },
-  createProxyMiddleware({
-    target: `${services.productCatalog}/product`,
-    changeOrigin: true,
-  }),
+  addAuthAndRoleChecks('admin'),
+  createProxy(`${services.productCatalog}/product`),
 );
 
 // Shopping Cart routes
 app.use(
   '/cart',
   checkJwt,
-  createProxyMiddleware({
-    router: (req: RequestExt) =>
-      `${services.shoppingCart}/cart/${req.user?.id}`,
-    changeOrigin: true,
-  }),
+  createProxy(
+    services.shoppingCart,
+    (req: RequestExt) => `${services.shoppingCart}/cart/${req.user?.id}`,
+  ),
 );
 
 // Order routes
 app.use(
   '/order/:orderId',
   checkJwt,
-  createProxyMiddleware({
-    router: (req: RequestExt) =>
+  createProxy(
+    services.order,
+    (req: RequestExt) =>
       `${services.order}/order/${req.user?.id}/${req.params.orderId}`,
-    changeOrigin: true,
-  }),
+  ),
 );
-
 app.use(
   '/order',
   checkJwt,
-  createProxyMiddleware({
-    router: (req: RequestExt) => `${services.order}/order/${req.user?.id}`,
-    changeOrigin: true,
-  }),
+  createProxy(
+    services.order,
+    (req: RequestExt) => `${services.order}/order/${req.user?.id}`,
+  ),
 );
 
 // Payment routes
 app.use(
   '/payment',
   checkJwt,
-  createProxyMiddleware({
-    router: (req: RequestExt) => `${services.payment}/payment/${req.user?.id}`,
-    changeOrigin: true,
-  }),
+  createProxy(
+    services.payment,
+    (req: RequestExt) => `${services.payment}/payment/${req.user?.id}`,
+  ),
 );
-
-app.use(
-  '/webhook',
-  createProxyMiddleware({
-    target: `${services.payment}/payment/webhook`,
-    changeOrigin: true,
-  }),
-);
+app.use('/webhook', createProxy(`${services.payment}/payment/webhook`));
 
 // Root route
 app.get('/', (req: Request, res: Response) => {
   res.send('API Gateway is running');
 });
 
+// Error handling middleware
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
   res.status(500).send('Something broke!');
