@@ -9,4 +9,13 @@ export class MongoDatabase {
       console.error('MongoDB connection error:', error);
     }
   }
+
+  static async disconnect() {
+    try {
+      await mongoose.disconnect();
+      console.log('MongoDB disconnected');
+    } catch (error) {
+      console.error('MongoDB disconnection error:', error);
+    }
+  }
 }
