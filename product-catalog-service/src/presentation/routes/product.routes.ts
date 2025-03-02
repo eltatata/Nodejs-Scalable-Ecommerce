@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import {
+  CategoryDataSourceImpl,
+  CategoryRepositoryImpl,
   FilesMiddleware,
   ProductDataSourceImpl,
   ProductRepositoryImpl,
@@ -12,12 +14,18 @@ export class ProductRoutes {
   static get routes(): Router {
     const router = Router();
 
-    const productDataSource = new ProductDataSourceImpl();
     const storeDataSource = new StoreDataSourceImpl();
-    const productRepository = new ProductRepositoryImpl(productDataSource);
     const storeRepository = new StoreRepositoryImpl(storeDataSource);
+
+    const categoryDataSource = new CategoryDataSourceImpl();
+    const categoryRepository = new CategoryRepositoryImpl(categoryDataSource);
+
+    const productDataSource = new ProductDataSourceImpl();
+    const productRepository = new ProductRepositoryImpl(productDataSource);
+
     const productController = new ProductController(
       productRepository,
+      categoryRepository,
       storeRepository,
     );
 

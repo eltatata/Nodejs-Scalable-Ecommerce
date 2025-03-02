@@ -4,6 +4,7 @@ import {
   ProductRepository,
   UpdateProductDto,
   StoreRepository,
+  CategoryRepository,
 } from '../../';
 
 export interface UpdateProductUseCase {
@@ -13,6 +14,7 @@ export interface UpdateProductUseCase {
 export class UpdateProduct implements UpdateProductUseCase {
   constructor(
     private readonly productRepository: ProductRepository,
+    private readonly categoryRepository: CategoryRepository,
     private readonly storeRepository: StoreRepository,
   ) {}
 
@@ -21,6 +23,11 @@ export class UpdateProduct implements UpdateProductUseCase {
       updateProductDto.id,
     );
     if (!currentProduct) throw CustomError.notFound('Product not found');
+
+    const existingCategory = await this.categoryRepository.findById(
+      updateProductDto.category,
+    );
+    if (!existingCategory) throw CustomError.notFound('Category not found');
 
     if (
       updateProductDto.name &&
