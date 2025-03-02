@@ -1,4 +1,5 @@
 import {
+  CategoryRepository,
   CreateProductDto,
   CustomError,
   ProductEntity,
@@ -13,6 +14,7 @@ export interface CreateProductUseCase {
 export class CreateProduct implements CreateProductUseCase {
   constructor(
     private readonly productRepository: ProductRepository,
+    private readonly categoryRepository: CategoryRepository,
     private readonly storeRepository: StoreRepository,
   ) {}
 
@@ -23,6 +25,11 @@ export class CreateProduct implements CreateProductUseCase {
       productData.name,
     );
     if (existingProduct) throw CustomError.conflict('Product already exists');
+
+    const existingCategory = await this.categoryRepository.findById(
+      productData.category,
+    );
+    if (!existingCategory) throw CustomError.notFound('Category not found');
 
     const imageInfo = await this.storeRepository.upload(images);
 

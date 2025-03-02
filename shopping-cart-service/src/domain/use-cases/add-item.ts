@@ -20,9 +20,12 @@ export class AddItem implements AddItemUseCase {
     const response = await this.productDataSource.findProductById(
       item.productId,
     );
-    const product = await response.json();
 
-    if (!product) throw CustomError.notFound('Product not found');
+    if (!response.ok) {
+      throw CustomError.notFound('Product not found');
+    }
+
+    const product = await response.json();
 
     if (item.quantity <= 0) {
       throw CustomError.badRequest('Quantity must be greater than 0');

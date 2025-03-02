@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
 import {
+  CategoryRepository,
   CreateProduct,
   CreateProductDto,
   DeductProduct,
@@ -16,6 +17,7 @@ import {
 export class ProductController {
   constructor(
     private readonly productRepository: ProductRepository,
+    private readonly categoryRepository: CategoryRepository,
     private readonly storeRepository: StoreRepository,
   ) {}
 
@@ -51,7 +53,11 @@ export class ProductController {
       return;
     }
 
-    new CreateProduct(this.productRepository, this.storeRepository)
+    new CreateProduct(
+      this.productRepository,
+      this.categoryRepository,
+      this.storeRepository,
+    )
       .execute(validatedData!)
       .then((product) => res.status(201).json(product))
       .catch((error) => ErrorHandlerService.handleError(error, res));
@@ -75,7 +81,11 @@ export class ProductController {
       return;
     }
 
-    new UpdateProduct(this.productRepository, this.storeRepository)
+    new UpdateProduct(
+      this.productRepository,
+      this.categoryRepository,
+      this.storeRepository,
+    )
       .execute(validatedData!)
       .then((product) => res.status(200).json(product))
       .catch((error) => ErrorHandlerService.handleError(error, res));

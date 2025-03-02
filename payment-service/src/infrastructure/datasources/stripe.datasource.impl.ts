@@ -4,6 +4,7 @@ import { Item, StripeDataSource } from '../../domain';
 
 export class StripeDataSourceImpl implements StripeDataSource {
   private readonly stripe = new Stripe(envs.STRIPE_SECRET_KEY);
+  private readonly currency = envs.STRIPE_CURRENCY;
 
   async createCheckoutSession(
     items: Item[],
@@ -12,11 +13,11 @@ export class StripeDataSourceImpl implements StripeDataSource {
     const { url } = await this.stripe.checkout.sessions.create({
       line_items: items.map(({ name, price, quantity }) => ({
         price_data: {
-          currency: 'cop',
+          currency: this.currency,
           product_data: {
             name,
           },
-          unit_amount: price * 100,
+          unit_amount: Math.round(Number(price.toFixed(2)) * 100),
         },
         quantity,
       })),

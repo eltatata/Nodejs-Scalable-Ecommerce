@@ -6,4 +6,5 @@ export const envs = {
   ORDER_API_URL: get('ORDER_API_URL').required().asString(),
   STRIPE_SECRET_KEY: get('STRIPE_SECRET_KEY').required().asString(),
   STRIPE_WEBHOOK_SECRET: get('STRIPE_WEBHOOK_SECRET').required().asString(),
+  STRIPE_CURRENCY: get('STRIPE_CURRENCY').required().asString(),
 };
