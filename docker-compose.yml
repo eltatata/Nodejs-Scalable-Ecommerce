@@ -96,6 +96,8 @@ services:
     image: stripe/stripe-cli:latest
     container_name: stripe-cli
     command: listen --forward-to http://host.docker.internal:3000/webhook
+    # this command is if you want to work with the service in development directly without the API gateway routing.
+    # command: listen --forward-to http://host.docker.internal:3005/api/payment/webhook
     environment:
       STRIPE_API_KEY: ${STRIPE_SECRET_KEY}
     networks:
