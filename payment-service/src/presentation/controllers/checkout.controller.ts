@@ -3,6 +3,7 @@ import { ErrorHandlerService } from '../';
 import {
   Checkout,
   CheckoutDto,
+  KafkaRepository,
   OrderRepository,
   StripeRepository,
   Webhook,
@@ -12,6 +13,7 @@ export class CheckoutController {
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly stripeRepository: StripeRepository,
+    private readonly kafkaRepository: KafkaRepository,
   ) {}
 
   checkout = (req: Request, res: Response) => {
@@ -33,7 +35,11 @@ export class CheckoutController {
   };
 
   webhook = (req: Request, res: Response) => {
-    new Webhook(this.orderRepository, this.stripeRepository)
+    new Webhook(
+      this.orderRepository,
+      this.stripeRepository,
+      this.kafkaRepository,
+    )
       .execute(req)
       .then(() => res.status(200).send())
       .catch((error) => ErrorHandlerService.handleError(error, res));
