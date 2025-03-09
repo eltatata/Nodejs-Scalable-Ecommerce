@@ -30,7 +30,7 @@ export class Server {
     this.cloudinaryConfig = cloudinaryConfig;
   }
 
-  async start() {
+  start() {
     cloudinary.config(this.cloudinaryConfig);
 
     this.app.use(express.json());

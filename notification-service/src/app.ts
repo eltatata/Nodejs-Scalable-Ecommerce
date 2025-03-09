@@ -8,7 +8,11 @@ import {
   KafkaConsumer,
 } from './infrastructure';
 
-(async () => {
+(() => {
+  main();
+})();
+
+async function main() {
   const server = new Server({
     port: envs.PORT,
     routes: AppRoutes.routes,
@@ -23,4 +27,4 @@ import {
 
   const kafkaConsumer = new KafkaConsumer(emailRepository, kafkaRepository);
   await kafkaConsumer.start();
-})();
+}
