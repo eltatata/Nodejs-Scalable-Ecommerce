@@ -94,12 +94,43 @@ services:
   # Stripe CLI
   stripe-cli:
     image: stripe/stripe-cli:latest
+    container_name: stripe-cli
     command: listen --forward-to http://host.docker.internal:3000/webhook
+    # this command is if you want to work with the service in development directly without the API gateway routing.
+    # command: listen --forward-to http://host.docker.internal:3005/api/payment/webhook
     environment:
       STRIPE_API_KEY: ${STRIPE_SECRET_KEY}
     networks:
       - ecommerce-network
 
+  # Kafka
+  zooper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zooper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - ecommerce-network
+    
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zooper
+    ports:
+      - "9093:9093"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zooper:2181
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - ecommerce-network
+    
   # Databases
   user-mongodb:
     image: mongo:latest

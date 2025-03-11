@@ -1,6 +1,11 @@
 import { Request } from 'express';
 import { Stripe } from 'stripe';
-import { CustomError, OrderRepository, StripeRepository } from '../';
+import {
+  CustomError,
+  KafkaRepository,
+  OrderRepository,
+  StripeRepository,
+} from '../';
 
 export interface WebhookUseCase {
   execute(request: Request): Promise<void>;
@@ -10,6 +15,7 @@ export class Webhook implements WebhookUseCase {
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly stripeRepository: StripeRepository,
+    private readonly kafkaRepository: KafkaRepository,
   ) {}
 
   async execute(request: Request): Promise<void> {
@@ -51,6 +57,20 @@ export class Webhook implements WebhookUseCase {
         const { error } = await response.json();
         throw CustomError.badRequest(error);
       }
+
+      const paymentSuccessfulEvent = {
+        name: session?.customer_details?.name,
+        email: session?.customer_details?.email,
+        orderId: session?.metadata?.orderId,
+        invoicedAmount: session?.amount_total,
+        paymentMethod: session?.payment_method_types?.[0],
+        address: addressString,
+      };
+
+      await this.kafkaRepository.sendEvent(
+        'payment-successful',
+        paymentSuccessfulEvent,
+      );
     }
   }
 }

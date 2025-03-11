@@ -21,7 +21,7 @@ export class Server {
     this.routes = routes;
   }
 
-  async start() {
+  start() {
     this.app.use(express.json());
     this.app.use(morgan('dev'));
 
