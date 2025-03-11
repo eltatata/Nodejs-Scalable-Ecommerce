@@ -11,4 +11,3 @@ export * from './use-cases/webhook';
 export * from './interfaces/order.interfaces';
 export * from './interfaces/validation.interfaces';
 export * from './interfaces/item.interface';
-export * from './interfaces/notification.interface';
