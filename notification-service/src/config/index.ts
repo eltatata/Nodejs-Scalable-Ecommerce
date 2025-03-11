@@ -1,3 +1,2 @@
 export * from './adapters/envs.adapter';
-export * from './adapters/zod.adapter';
-export * from './schemas/email-dtos.schema';
+export * from './utils/email.template';

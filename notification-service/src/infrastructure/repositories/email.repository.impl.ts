@@ -1,9 +1,9 @@
-import { EmailDataSource, EmailRepository, SendEmailDto } from '../../domain';
+import { EmailDataSource, EmailRepository, EmailProps } from '../../domain';
 
 export class EmailRepositoryImpl implements EmailRepository {
   constructor(private readonly emailDataSource: EmailDataSource) {}
 
-  sendEmail(sendEmailDto: SendEmailDto): Promise<void> {
-    return this.emailDataSource.sendEmail(sendEmailDto);
+  sendEmail(emailProps: EmailProps): Promise<void> {
+    return this.emailDataSource.sendEmail(emailProps);
   }
 }

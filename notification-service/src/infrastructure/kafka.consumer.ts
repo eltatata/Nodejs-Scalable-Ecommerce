@@ -1,3 +1,4 @@
+import { emailTemplateGenerator } from '../config';
 import { EmailRepository, SendEmail } from '../domain';
 import { KafkaRepositoryImpl } from './';
 
@@ -12,12 +13,19 @@ export class KafkaConsumer {
       'payment-successful',
       'notification-group',
       async (event) => {
-        const { email } = event;
+        const { name, email, orderId, invoicedAmount, paymentMethod, address } =
+          event;
 
         const emailData = {
           to: email as string,
           subject: 'Payment successful',
-          text: 'Your payment was successful, your order is being processed',
+          html: emailTemplateGenerator({
+            name: name as string,
+            orderId: orderId as string,
+            invoicedAmount: (invoicedAmount as number) / 100,
+            paymentMethod: paymentMethod as string,
+            address: address as string,
+          }),
         };
 
         try {

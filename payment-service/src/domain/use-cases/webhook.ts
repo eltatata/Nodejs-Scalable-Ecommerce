@@ -59,9 +59,12 @@ export class Webhook implements WebhookUseCase {
       }
 
       const paymentSuccessfulEvent = {
-        orderId: session?.metadata?.orderId,
-        userId: session?.metadata?.userId,
+        name: session?.customer_details?.name,
         email: session?.customer_details?.email,
+        orderId: session?.metadata?.orderId,
+        invoicedAmount: session?.amount_total,
+        paymentMethod: session?.payment_method_types?.[0],
+        address: addressString,
       };
 
       await this.kafkaRepository.sendEvent(

@@ -1,5 +1,5 @@
-import { SendEmailDto } from '../';
+import { EmailProps } from '../';
 
 export abstract class EmailRepository {
-  abstract sendEmail(sendEmailDto: SendEmailDto): Promise<void>;
+  abstract sendEmail(emailProps: EmailProps): Promise<void>;
 }

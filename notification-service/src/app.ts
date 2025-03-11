@@ -1,5 +1,3 @@
-import { envs } from './config';
-import { AppRoutes, Server } from './presentation';
 import {
   EmailDataSourceImpl,
   EmailRepositoryImpl,
@@ -13,12 +11,6 @@ import {
 })();
 
 async function main() {
-  const server = new Server({
-    port: envs.PORT,
-    routes: AppRoutes.routes,
-  });
-  server.start();
-
   const emailDataSource = new EmailDataSourceImpl();
   const emailRepository = new EmailRepositoryImpl(emailDataSource);
 

@@ -1,13 +1,13 @@
-import { EmailRepository, SendEmailDto } from '../';
+import { EmailRepository, EmailProps } from '../';
 
 export interface SendEmailUseCase {
-  execute(sendEmailDto: SendEmailDto): Promise<void>;
+  execute(emailProps: EmailProps): Promise<void>;
 }
 
 export class SendEmail implements SendEmailUseCase {
   constructor(private readonly emailRepository: EmailRepository) {}
 
-  async execute(sendEmailDto: SendEmailDto): Promise<void> {
+  async execute(sendEmailDto: EmailProps): Promise<void> {
     await this.emailRepository.sendEmail(sendEmailDto);
   }
 }
