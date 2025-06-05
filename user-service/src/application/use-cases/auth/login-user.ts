@@ -1,5 +1,10 @@
 import { JwtAdapter, bcryptAdapter } from '../../../config';
-import { CustomError, LoginUserDto, UserEntity, UserRepository } from '../../';
+import {
+  CustomError,
+  LoginUserDto,
+  UserEntity,
+  UserRepository,
+} from '../../../domain';
 
 export type LoginUserUseCaseResp = Promise<{
   user: UserEntity;

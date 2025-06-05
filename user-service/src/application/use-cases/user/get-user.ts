@@ -1,4 +1,4 @@
-import { CustomError, UserEntity, UserRepository } from '../../';
+import { CustomError, UserEntity, UserRepository } from '../../../domain';
 
 export interface GetUserUseCase {
   execute(userId: string): Promise<UserEntity>;

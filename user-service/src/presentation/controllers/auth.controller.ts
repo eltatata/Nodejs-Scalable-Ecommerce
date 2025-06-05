@@ -1,12 +1,7 @@
 import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
-import {
-  LoginUser,
-  LoginUserDto,
-  RegisterUser,
-  RegisterUserDto,
-  UserRepository,
-} from '../../domain';
+import { LoginUserDto, RegisterUserDto, UserRepository } from '../../domain';
+import { LoginUser, RegisterUser } from '../../application';
 
 export class AuthController {
   constructor(private readonly userRepository: UserRepository) {}

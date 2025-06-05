@@ -4,7 +4,7 @@ import {
   RegisterUserDto,
   UserEntity,
   UserRepository,
-} from '../../';
+} from '../../../domain';
 
 export interface RegisterUserUseCase {
   execute(registerUserDto: RegisterUserDto): Promise<UserEntity>;
