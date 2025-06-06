@@ -1,4 +1,9 @@
-import { CustomError, OrderEntity, OrderRepository, UpdateOrderDto } from '../';
+import {
+  CustomError,
+  OrderEntity,
+  OrderRepository,
+  UpdateOrderDto,
+} from '../../domain';
 
 export interface UpdateOrderUseCase {
   execute(updateOrderDto: UpdateOrderDto): Promise<OrderEntity>;

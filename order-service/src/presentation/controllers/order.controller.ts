@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
 import {
-  CreateOrder,
   CreateOrderDto,
-  GetOrder,
   OrderRepository,
   ProductRepository,
-  UpdateOrder,
   UpdateOrderDto,
 } from '../../domain';
+import { CreateOrder, GetOrder, UpdateOrder } from '../../application';
 
 export class OrderController {
   constructor(

@@ -4,7 +4,7 @@ import {
   OrderEntity,
   OrderRepository,
   ProductRepository,
-} from '../';
+} from '../../domain';
 
 export interface CreateOrderUseCase {
   execute(createOrderDto: CreateOrderDto): Promise<OrderEntity>;

@@ -1,4 +1,4 @@
-import { OrderRepository, OrderEntity } from '../';
+import { OrderRepository, OrderEntity } from '../../domain';
 
 export interface GetOrdersUseCase {
   execute(userId: string): Promise<OrderEntity[]>;
