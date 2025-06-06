@@ -1,13 +1,12 @@
 import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
 import {
-  Checkout,
   CheckoutDto,
   KafkaRepository,
   OrderRepository,
   StripeRepository,
-  Webhook,
 } from '../../domain';
+import { Checkout, Webhook } from '../../application';
 
 export class CheckoutController {
   constructor(

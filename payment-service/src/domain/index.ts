@@ -6,8 +6,6 @@ export * from './repositories/order.repository';
 export * from './repositories/stripe.repository';
 export * from './repositories/kafka.repository';
 export * from './dtos/checkout/checkout.dto';
-export * from './use-cases/checkout';
-export * from './use-cases/webhook';
 export * from './interfaces/order.interfaces';
 export * from './interfaces/validation.interfaces';
 export * from './interfaces/item.interface';

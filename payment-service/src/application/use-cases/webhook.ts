@@ -5,7 +5,7 @@ import {
   KafkaRepository,
   OrderRepository,
   StripeRepository,
-} from '../';
+} from '../../domain';
 
 export interface WebhookUseCase {
   execute(request: Request): Promise<void>;

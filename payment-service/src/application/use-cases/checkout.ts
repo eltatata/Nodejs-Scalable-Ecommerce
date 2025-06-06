@@ -4,7 +4,7 @@ import {
   Order,
   OrderRepository,
   StripeRepository,
-} from '../';
+} from '../../domain';
 
 interface CheckoutResponse {
   url: string;
