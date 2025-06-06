@@ -1,4 +1,4 @@
-import { EmailRepository, EmailProps } from '../';
+import { EmailRepository, EmailProps } from '../../domain';
 
 export interface SendEmailUseCase {
   execute(emailProps: EmailProps): Promise<void>;

@@ -1,5 +1,6 @@
 import { emailTemplateGenerator } from '../config';
-import { EmailRepository, SendEmail } from '../domain';
+import { EmailRepository } from '../domain';
+import { SendEmail } from '../application';
 import { KafkaRepositoryImpl } from './';
 
 export class KafkaConsumer {
