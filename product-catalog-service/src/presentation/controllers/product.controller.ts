@@ -2,17 +2,19 @@ import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
 import {
   CategoryRepository,
-  CreateProduct,
   CreateProductDto,
+  ProductRepository,
+  StoreRepository,
+  UpdateProductDto,
+} from '../../domain';
+import {
+  CreateProduct,
   DeductProduct,
   DeleteProduct,
   FindProduct,
   FindProducts,
-  ProductRepository,
-  StoreRepository,
   UpdateProduct,
-  UpdateProductDto,
-} from '../../domain';
+} from '../../application';
 
 export class ProductController {
   constructor(

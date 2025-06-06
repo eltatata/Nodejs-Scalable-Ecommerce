@@ -3,7 +3,7 @@ import {
   ProductEntity,
   ProductRepository,
   StoreRepository,
-} from '../../';
+} from '../../../domain';
 
 export interface DeleteProductUseCase {
   execute(id: string): Promise<ProductEntity>;

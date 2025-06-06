@@ -1,4 +1,4 @@
-import { CategoryEntity, CategoryRepository } from '../..';
+import { CategoryEntity, CategoryRepository } from '../../../domain';
 
 export interface FindCategoriesUseCase {
   execute(): Promise<CategoryEntity[]>;

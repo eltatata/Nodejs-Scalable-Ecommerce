@@ -5,7 +5,7 @@ import {
   UpdateProductDto,
   StoreRepository,
   CategoryRepository,
-} from '../../';
+} from '../../../domain';
 
 export interface UpdateProductUseCase {
   execute(updateProductDto: UpdateProductDto): Promise<ProductEntity>;

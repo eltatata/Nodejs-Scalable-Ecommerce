@@ -1,4 +1,4 @@
-import { CustomError, ProductEntity, ProductRepository } from '../../';
+import { CustomError, ProductEntity, ProductRepository } from '../../../domain';
 
 export interface DeductProductUseCase {
   execute(id: string, quantity: number): Promise<ProductEntity>;

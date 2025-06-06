@@ -1,4 +1,8 @@
-import { CategoryEntity, CategoryRepository, CustomError } from '../../';
+import {
+  CategoryEntity,
+  CategoryRepository,
+  CustomError,
+} from '../../../domain';
 
 export interface FindCategoryUseCase {
   execute(id: string): Promise<CategoryEntity>;

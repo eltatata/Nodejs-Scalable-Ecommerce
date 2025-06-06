@@ -5,7 +5,7 @@ import {
   ProductEntity,
   ProductRepository,
   StoreRepository,
-} from '../../';
+} from '../../../domain';
 
 export interface CreateProductUseCase {
   execute(createProductDto: CreateProductDto): Promise<ProductEntity>;

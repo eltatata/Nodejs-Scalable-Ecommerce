@@ -1,4 +1,8 @@
-import { CategoryEntity, CategoryRepository, CustomError } from '../..';
+import {
+  CategoryEntity,
+  CategoryRepository,
+  CustomError,
+} from '../../../domain';
 
 export interface DeleteCategoryUseCase {
   execute(id: string): Promise<CategoryEntity>;

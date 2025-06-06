@@ -1,4 +1,4 @@
-import { ProductEntity, ProductRepository } from '../../';
+import { ProductEntity, ProductRepository } from '../../../domain';
 
 export interface FindProductsUseCase {
   execute(): Promise<ProductEntity[]>;

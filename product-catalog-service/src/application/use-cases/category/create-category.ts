@@ -3,7 +3,7 @@ import {
   CategoryRepository,
   CreateCategoryDto,
   CustomError,
-} from '../../';
+} from '../../../domain';
 
 export interface CreateCategoryUseCase {
   execute(createCategoryDto: CreateCategoryDto): Promise<CategoryEntity>;

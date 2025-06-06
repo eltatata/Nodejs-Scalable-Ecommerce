@@ -2,14 +2,16 @@ import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
 import {
   CategoryRepository,
-  CreateCategory,
   CreateCategoryDto,
+  UpdateCategoryDto,
+} from '../../domain';
+import {
+  CreateCategory,
   DeleteCategory,
   FindCategories,
   FindCategory,
   UpdateCategory,
-  UpdateCategoryDto,
-} from '../../domain';
+} from '../../application';
 
 export class CategoryController {
   constructor(private readonly categoryRepository: CategoryRepository) {}
