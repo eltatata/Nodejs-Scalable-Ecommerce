@@ -1,4 +1,4 @@
-import { CartDataSource, CustomError, ProductDataSource } from '../';
+import { CartDataSource, CustomError, ProductDataSource } from '../../domain';
 
 export interface UpdateQuantityUseCase {
   execute(userId: string, productId: string, quantity: number): Promise<void>;

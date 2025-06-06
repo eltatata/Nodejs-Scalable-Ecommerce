@@ -1,4 +1,4 @@
-import { CartDataSource, CustomError } from '../';
+import { CartDataSource, CustomError } from '../../domain';
 
 export interface ClearCartUseCase {
   execute(userId: string): Promise<void>;

@@ -1,4 +1,4 @@
-import { CartDataSource, CartEntity, CustomError } from '../';
+import { CartDataSource, CartEntity, CustomError } from '../../domain';
 
 export interface GetCartUseCase {
   execute(userId: string): Promise<CartEntity>;

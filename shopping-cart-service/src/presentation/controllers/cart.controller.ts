@@ -1,14 +1,13 @@
 import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
+import { CartRepository, ProductRepository } from '../../domain';
 import {
   AddItem,
-  CartRepository,
   ClearCart,
   DeleteItem,
   GetCart,
-  ProductRepository,
   UpdateQuantity,
-} from '../../domain';
+} from '../../application';
 
 export class CartController {
   constructor(

@@ -1,4 +1,4 @@
-import { CartDataSource, CustomError } from '../';
+import { CartDataSource, CustomError } from '../../domain';
 
 export interface DeleteItemUseCase {
   execute(userId: string, productId: string): Promise<void>;

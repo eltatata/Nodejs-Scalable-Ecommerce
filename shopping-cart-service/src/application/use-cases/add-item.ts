@@ -4,7 +4,7 @@ import {
   CustomError,
   Item,
   ProductDataSource,
-} from '../';
+} from '../../domain';
 
 export interface AddItemUseCase {
   execute(userId: string, item: Item): Promise<CartEntity>;
