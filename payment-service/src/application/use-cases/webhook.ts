@@ -2,9 +2,9 @@ import { Request } from 'express';
 import { Stripe } from 'stripe';
 import {
   CustomError,
-  KafkaRepository,
   OrderRepository,
   StripeRepository,
+  PaymentSuccessfulProducer,
 } from '../../domain';
 
 export interface WebhookUseCase {
@@ -15,7 +15,7 @@ export class Webhook implements WebhookUseCase {
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly stripeRepository: StripeRepository,
-    private readonly kafkaRepository: KafkaRepository,
+    private readonly paymentSuccessfulProducer: PaymentSuccessfulProducer,
   ) {}
 
   async execute(request: Request): Promise<void> {
@@ -67,8 +67,7 @@ export class Webhook implements WebhookUseCase {
         address: addressString,
       };
 
-      await this.kafkaRepository.sendEvent(
-        'payment-successful',
+      await this.paymentSuccessfulProducer.sendPaymentSuccessfulEvent(
         paymentSuccessfulEvent,
       );
     }

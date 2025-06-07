@@ -5,13 +5,14 @@ import {
   OrderRepositoryImpl,
   StripeDataSourceImpl,
   StripeRepositoryImpl,
-  KafkaDataSourceImpl,
-  KafkaRepositoryImpl,
+  PaymentSuccessfulProducerImpl,
 } from '../../infrastructure/';
 
 export class CheckoutRoutes {
   static get routes(): Router {
     const router = Router();
+
+    const paymentSuccessfulProducer = new PaymentSuccessfulProducerImpl();
 
     const orderDataSource = new OrderDataSourceImpl();
     const orderRepository = new OrderRepositoryImpl(orderDataSource);
@@ -19,13 +20,10 @@ export class CheckoutRoutes {
     const stripeDataSource = new StripeDataSourceImpl();
     const stripeRepository = new StripeRepositoryImpl(stripeDataSource);
 
-    const kafkaDataSource = new KafkaDataSourceImpl();
-    const kafkaRepository = new KafkaRepositoryImpl(kafkaDataSource);
-
     const checkoutController = new CheckoutController(
       orderRepository,
       stripeRepository,
-      kafkaRepository,
+      paymentSuccessfulProducer,
     );
 
     router.post('/:userId/checkout', checkoutController.checkout);

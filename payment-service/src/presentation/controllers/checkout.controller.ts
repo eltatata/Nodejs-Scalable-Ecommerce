@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import { ErrorHandlerService } from '../';
 import {
   CheckoutDto,
-  KafkaRepository,
   OrderRepository,
   StripeRepository,
+  PaymentSuccessfulProducer,
 } from '../../domain';
 import { Checkout, Webhook } from '../../application';
 
@@ -12,7 +12,7 @@ export class CheckoutController {
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly stripeRepository: StripeRepository,
-    private readonly kafkaRepository: KafkaRepository,
+    private readonly paymentSuccessfulProducer: PaymentSuccessfulProducer,
   ) {}
 
   checkout = (req: Request, res: Response) => {
@@ -37,7 +37,7 @@ export class CheckoutController {
     new Webhook(
       this.orderRepository,
       this.stripeRepository,
-      this.kafkaRepository,
+      this.paymentSuccessfulProducer,
     )
       .execute(req)
       .then(() => res.status(200).send())
