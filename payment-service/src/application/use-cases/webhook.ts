@@ -3,7 +3,7 @@ import { Stripe } from 'stripe';
 import {
   CustomError,
   OrderRepository,
-  StripeRepository,
+  StripeService,
   PaymentSuccessfulProducer,
 } from '../../domain';
 
@@ -14,7 +14,7 @@ export interface WebhookUseCase {
 export class Webhook implements WebhookUseCase {
   constructor(
     private readonly orderRepository: OrderRepository,
-    private readonly stripeRepository: StripeRepository,
+    private readonly stripeService: StripeService,
     private readonly paymentSuccessfulProducer: PaymentSuccessfulProducer,
   ) {}
 
@@ -25,7 +25,7 @@ export class Webhook implements WebhookUseCase {
     let event: Stripe.Event;
 
     try {
-      event = await this.stripeRepository.constructEvent(body, signature);
+      event = await this.stripeService.constructEvent(body, signature);
     } catch (err) {
       console.error(err);
       throw CustomError.badRequest('Webhook Error');

@@ -1,8 +1,8 @@
 import { Stripe } from 'stripe';
 import { envs } from '../../config';
-import { Item, StripeDataSource } from '../../domain';
+import { Item, StripeService } from '../../domain';
 
-export class StripeDataSourceImpl implements StripeDataSource {
+export class StripeServiceImpl implements StripeService {
   private readonly stripe = new Stripe(envs.STRIPE_SECRET_KEY);
   private readonly currency = envs.STRIPE_CURRENCY;
 

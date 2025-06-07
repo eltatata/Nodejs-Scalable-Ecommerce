@@ -3,7 +3,7 @@ import {
   CustomError,
   Order,
   OrderRepository,
-  StripeRepository,
+  StripeService,
 } from '../../domain';
 
 interface CheckoutResponse {
@@ -18,7 +18,7 @@ export interface CheckoutUseCase {
 export class Checkout implements CheckoutUseCase {
   constructor(
     private readonly orderRepository: OrderRepository,
-    private readonly stripeRepository: StripeRepository,
+    private readonly stripeService: StripeService,
   ) {}
 
   async execute(checkoutDto: CheckoutDto): Promise<CheckoutResponse> {
@@ -31,7 +31,7 @@ export class Checkout implements CheckoutUseCase {
 
     const order = await response.json();
 
-    const url = await this.stripeRepository.createCheckoutSession(
+    const url = await this.stripeService.createCheckoutSession(
       checkoutDto.items,
       order.id,
     );

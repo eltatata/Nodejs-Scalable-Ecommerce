@@ -3,8 +3,7 @@ import { CheckoutController } from '../';
 import {
   OrderDataSourceImpl,
   OrderRepositoryImpl,
-  StripeDataSourceImpl,
-  StripeRepositoryImpl,
+  StripeServiceImpl,
   PaymentSuccessfulProducerImpl,
 } from '../../infrastructure/';
 
@@ -12,17 +11,16 @@ export class CheckoutRoutes {
   static get routes(): Router {
     const router = Router();
 
+    const stripeService = new StripeServiceImpl();
+
     const paymentSuccessfulProducer = new PaymentSuccessfulProducerImpl();
 
     const orderDataSource = new OrderDataSourceImpl();
     const orderRepository = new OrderRepositoryImpl(orderDataSource);
 
-    const stripeDataSource = new StripeDataSourceImpl();
-    const stripeRepository = new StripeRepositoryImpl(stripeDataSource);
-
     const checkoutController = new CheckoutController(
       orderRepository,
-      stripeRepository,
+      stripeService,
       paymentSuccessfulProducer,
     );
 

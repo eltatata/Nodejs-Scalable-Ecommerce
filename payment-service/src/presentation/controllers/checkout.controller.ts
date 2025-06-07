@@ -3,7 +3,7 @@ import { ErrorHandlerService } from '../';
 import {
   CheckoutDto,
   OrderRepository,
-  StripeRepository,
+  StripeService,
   PaymentSuccessfulProducer,
 } from '../../domain';
 import { Checkout, Webhook } from '../../application';
@@ -11,7 +11,7 @@ import { Checkout, Webhook } from '../../application';
 export class CheckoutController {
   constructor(
     private readonly orderRepository: OrderRepository,
-    private readonly stripeRepository: StripeRepository,
+    private readonly stripeService: StripeService,
     private readonly paymentSuccessfulProducer: PaymentSuccessfulProducer,
   ) {}
 
@@ -27,7 +27,7 @@ export class CheckoutController {
       return;
     }
 
-    new Checkout(this.orderRepository, this.stripeRepository)
+    new Checkout(this.orderRepository, this.stripeService)
       .execute(validatedData!)
       .then((data) => res.status(201).json(data))
       .catch((error) => ErrorHandlerService.handleError(error, res));
@@ -36,7 +36,7 @@ export class CheckoutController {
   webhook = (req: Request, res: Response) => {
     new Webhook(
       this.orderRepository,
-      this.stripeRepository,
+      this.stripeService,
       this.paymentSuccessfulProducer,
     )
       .execute(req)
