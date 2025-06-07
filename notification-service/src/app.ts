@@ -1,22 +1,13 @@
-import {
-  EmailDataSourceImpl,
-  EmailRepositoryImpl,
-  KafkaDataSourceImpl,
-  KafkaRepositoryImpl,
-  KafkaConsumer,
-} from './infrastructure';
+import { PaymentSuccessfulConsumer } from './consumers/payment-successful.consumer';
+import { PaymentSuccessfulHandler } from './handlers/payment-successful.handler';
+import { EmailService } from './services/email.service';
 
-(() => {
-  main();
-})();
+const emailService = new EmailService();
+const handler = new PaymentSuccessfulHandler(emailService);
+const consumer = new PaymentSuccessfulConsumer(handler);
 
-async function main() {
-  const emailDataSource = new EmailDataSourceImpl();
-  const emailRepository = new EmailRepositoryImpl(emailDataSource);
-
-  const kafkaDataSource = new KafkaDataSourceImpl();
-  const kafkaRepository = new KafkaRepositoryImpl(kafkaDataSource);
-
-  const kafkaConsumer = new KafkaConsumer(emailRepository, kafkaRepository);
-  await kafkaConsumer.start();
-}
+consumer.start().then(() => {
+  console.log(
+    'Kafka notification consumer started for payment successful events',
+  );
+});

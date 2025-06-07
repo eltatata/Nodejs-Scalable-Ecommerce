@@ -1,4 +1,10 @@
-import { EmailTemplateData } from '../../domain';
+interface EmailTemplateData {
+  name: string;
+  orderId: string;
+  invoicedAmount: number;
+  paymentMethod: string;
+  address: string;
+}
 
 export const emailTemplateGenerator = (
   emailTemplateData: EmailTemplateData,
@@ -183,6 +189,5 @@ export const emailTemplateGenerator = (
   </div>
 </body>
 
-</html>`
-    ;
+</html>`;
 };
