@@ -105,7 +105,7 @@ services:
 
   # Kafka
   zooper:
-    image: confluentinc/cp-zookeeper:latest
+    image: confluentinc/cp-zookeeper:7.4.1
     container_name: zooper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -114,7 +114,7 @@ services:
       - ecommerce-network
     
   kafka:
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:7.4.1
     container_name: kafka
     depends_on:
       - zooper
